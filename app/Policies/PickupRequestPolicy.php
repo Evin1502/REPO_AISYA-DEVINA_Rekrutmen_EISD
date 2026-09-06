@@ -9,17 +9,9 @@ class PickupRequestPolicy
 {
     public function view(User $user, PickupRequest $pickupRequest): bool
     {
-        $isOwner = $pickupRequest->user_id === $user->id;
-        $isAssignedCollector = $pickupRequest->collector_id === $user->id;
-
-        return $user->isAdmin() || $isOwner || $isAssignedCollector;
-    }
-
-    public function cancel(User $user, PickupRequest $pickupRequest): bool
-    {
-        return $user->isResident()
-            && $pickupRequest->user_id === $user->id
-            && $pickupRequest->status === 'pending';
+        return $user->isAdmin()
+            || $pickupRequest->user_id === $user->id
+            || $pickupRequest->collector_id === $user->id;
     }
 
     public function approve(User $user): bool
@@ -27,9 +19,14 @@ class PickupRequestPolicy
         return $user->isAdmin();
     }
 
-    public function assign(User $user, PickupRequest $pickupRequest): bool
+    public function reject(User $user): bool
     {
-        return $user->isAdmin() && in_array($pickupRequest->status, ['pending', 'approved'], true);
+        return $user->isAdmin();
+    }
+
+    public function delete(User $user, PickupRequest $pickupRequest): bool
+    {
+        return $user->isResident() && $pickupRequest->user_id === $user->id;
     }
 
     public function updateStatus(User $user, PickupRequest $pickupRequest): bool

@@ -31,6 +31,8 @@ class PointExchangeController extends Controller
      */
     public function approve(Request $request, PointExchange $pointExchange): RedirectResponse
     {
+        $this->authorize('approve', $pointExchange);
+
         abort_unless($pointExchange->status === 'pending', 422, 'Hanya penukaran berstatus pending yang bisa disetujui.');
 
         $pointExchange->update(['status' => 'approved']);
@@ -44,6 +46,8 @@ class PointExchangeController extends Controller
      */
     public function reject(Request $request, PointExchange $pointExchange): RedirectResponse
     {
+        $this->authorize('reject', $pointExchange);
+
         abort_unless($pointExchange->status === 'pending', 422, 'Hanya penukaran berstatus pending yang bisa ditolak.');
 
         DB::transaction(function () use ($pointExchange) {

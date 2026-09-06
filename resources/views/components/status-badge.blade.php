@@ -2,18 +2,25 @@
 
 @php
     $map = [
-        'pending' => 'bg-amber-100 text-amber-800',
-        'approved' => 'bg-blue-100 text-blue-800',
-        'scheduled' => 'bg-indigo-100 text-indigo-800',
-        'collected' => 'bg-green-100 text-green-800',
-        'rejected' => 'bg-red-100 text-red-800',
-        'earn' => 'bg-green-100 text-green-800',
-        'redeem' => 'bg-red-100 text-red-800',
-        'refund' => 'bg-indigo-100 text-indigo-800',
+        'pending' => ['bg' => 'bg-amber-100 text-amber-800', 'dot' => 'bg-amber-500'],
+        'approved' => ['bg' => 'bg-blue-100 text-blue-800', 'dot' => 'bg-blue-500'],
+        'scheduled' => ['bg' => 'bg-indigo-100 text-indigo-800', 'dot' => 'bg-indigo-500'],
+        'collected' => ['bg' => 'bg-green-100 text-green-800', 'dot' => 'bg-green-500'],
+        'rejected' => ['bg' => 'bg-red-100 text-red-800', 'dot' => 'bg-red-500'],
+        'earn' => ['bg' => 'bg-green-100 text-green-800', 'dot' => 'bg-green-500'],
+        'redeem' => ['bg' => 'bg-red-100 text-red-800', 'dot' => 'bg-red-500'],
+        'refund' => ['bg' => 'bg-indigo-100 text-indigo-800', 'dot' => 'bg-indigo-500'],
     ];
-    $class = $map[$status] ?? 'bg-slate-100 text-slate-800';
+    $style = $map[$status] ?? ['bg' => 'bg-slate-100 text-slate-800', 'dot' => 'bg-slate-500'];
 @endphp
 
-<span {{ $attributes->merge(['class' => 'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $class]) }}>
+{{--
+    Guideline "Color Only" (ui-ux-pro-max, domain: ux):
+    status tidak boleh disampaikan lewat warna doang. Teks label sudah ada
+    sejak awal (aman), ditambah dot penanda biar makin cepat di-scan mata
+    tanpa harus baca teksnya dulu.
+--}}
+<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $style['bg']]) }}>
+    <span class="h-1.5 w-1.5 rounded-full {{ $style['dot'] }}" aria-hidden="true"></span>
     {{ ucfirst($status) }}
 </span>

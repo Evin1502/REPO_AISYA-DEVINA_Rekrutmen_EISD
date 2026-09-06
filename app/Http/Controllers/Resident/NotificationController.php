@@ -23,9 +23,9 @@ class NotificationController extends Controller
         return view('resident.notifications.index', compact('notifications'));
     }
 
-    public function markAsRead(Request $request, AppNotification $notification): RedirectResponse
+    public function markAsRead(AppNotification $notification): RedirectResponse
     {
-        abort_unless($notification->user_id === $request->user()->id, 403);
+        $this->authorize('markAsRead', $notification);
 
         $notification->update(['is_read' => true]);
 

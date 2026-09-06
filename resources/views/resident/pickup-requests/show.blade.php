@@ -14,6 +14,10 @@
                 <h1 class="text-lg font-bold text-slate-900">Detail Pengajuan #{{ $pickupRequest->id }}</h1>
             </div>
             <div class="card-body">
+                <div class="mb-6">
+                    <x-pickup-status-stepper :status="$pickupRequest->status" />
+                </div>
+
                 <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                         <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Alamat Penjemputan</dt>

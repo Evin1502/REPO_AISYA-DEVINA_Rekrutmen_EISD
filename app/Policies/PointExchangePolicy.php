@@ -2,18 +2,17 @@
 
 namespace App\Policies;
 
-use App\Models\PointExchange;
 use App\Models\User;
 
 class PointExchangePolicy
 {
-    public function approve(User $user, PointExchange $pointExchange): bool
+    public function approve(User $user): bool
     {
-        return $user->isAdmin() && $pointExchange->status === 'pending';
+        return $user->isAdmin();
     }
 
-    public function reject(User $user, PointExchange $pointExchange): bool
+    public function reject(User $user): bool
     {
-        return $user->isAdmin() && $pointExchange->status === 'pending';
+        return $user->isAdmin();
     }
 }

@@ -26,33 +26,40 @@
                         <label class="form-label">Kategori Sampah & Perkiraan Berat (kg)</label>
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
                             @foreach ($wasteCategories as $category)
-                                <div class="rounded-lg border border-slate-200 p-3">
-                                    <div class="flex items-start gap-2">
-                                        <input type="checkbox" name="categories[]" value="{{ $category->id }}"
-                                               id="cat-{{ $category->id }}"
-                                               class="category-check mt-1 h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
-                                               @checked(in_array($category->id, (array) old('categories', [])))>
-                                        <div class="flex-1">
-                                            <label for="cat-{{ $category->id }}" class="text-sm font-semibold text-slate-800">
-                                                {{ $category->name }}
-                                                <span class="ml-1 inline-flex rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
-                                                    {{ $category->points_per_kg }} poin/kg
-                                                </span>
-                                            </label>
-                                            <input type="number" step="0.1" min="0.1"
-                                                   name="estimated_weight[{{ $category->id }}]"
-                                                   placeholder="Perkiraan berat (kg)"
-                                                   value="{{ old('estimated_weight.' . $category->id) }}"
-                                                   class="weight-input mt-2 form-control @error('estimated_weight.' . $category->id) input-error @enderror">
-                                            @error('estimated_weight.' . $category->id)
-                                                <div class="form-error">{{ $message }}</div>
-                                            @enderror
-                                            @if ($category->description)
-                                                <p class="form-text">{{ $category->description }}</p>
-                                            @endif
-                                        </div>
+                                {{--
+                                    Guideline "Touch & Interaction" (ui-ux-pro-max): target sentuh
+                                    minimal 44x44px. Seluruh kartu dibungkus <label> supaya area
+                                    klik jauh lebih besar dari checkbox 16x16px doang, dan state
+                                    "dipilih" ditandai visual (border + background), bukan cuma
+                                    checkbox-nya yang kecentang.
+                                --}}
+                                <label for="cat-{{ $category->id }}"
+                                       class="flex cursor-pointer items-start gap-2 rounded-lg border border-slate-200 p-3 transition-colors has-checked:border-brand-500 has-checked:bg-brand-50">
+                                    <input type="checkbox" name="categories[]" value="{{ $category->id }}"
+                                           id="cat-{{ $category->id }}"
+                                           class="category-check mt-1 h-5 w-5 rounded border-slate-300 text-brand-600 focus:ring-2 focus:ring-brand-500"
+                                           @checked(in_array($category->id, (array) old('categories', [])))>
+                                    <div class="flex-1">
+                                        <span class="text-sm font-semibold text-slate-800">
+                                            {{ $category->name }}
+                                            <span class="ml-1 inline-flex rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
+                                                {{ $category->points_per_kg }} poin/kg
+                                            </span>
+                                        </span>
+                                        <input type="number" step="0.1" min="0.1"
+                                               name="estimated_weight[{{ $category->id }}]"
+                                               placeholder="Perkiraan berat (kg)"
+                                               value="{{ old('estimated_weight.' . $category->id) }}"
+                                               onclick="event.stopPropagation()"
+                                               class="weight-input mt-2 form-control @error('estimated_weight.' . $category->id) input-error @enderror">
+                                        @error('estimated_weight.' . $category->id)
+                                            <div class="form-error">{{ $message }}</div>
+                                        @enderror
+                                        @if ($category->description)
+                                            <p class="form-text">{{ $category->description }}</p>
+                                        @endif
                                     </div>
-                                </div>
+                                </label>
                             @endforeach
                         </div>
                         @error('categories')
@@ -94,6 +101,17 @@
                     syncInput(checkbox);
                 });
                 syncInput(checkbox);
+            });
+
+            // Guideline "Submit Feedback" (ui-ux-pro-max, domain: ux):
+            // beri feedback loading & cegah submit ganda saat tombol diklik.
+            const form = document.querySelector('form[action="{{ route('resident.pickup-requests.store') }}"]');
+            const submitBtn = form?.querySelector('button[type="submit"]');
+
+            form?.addEventListener('submit', function () {
+                if (!submitBtn) return;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirim...';
             });
         });
     </script>

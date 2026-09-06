@@ -36,6 +36,8 @@ class PickupRequestController extends Controller
 
     public function approve(Request $request, PickupRequest $pickupRequest): RedirectResponse
     {
+        $this->authorize('approve', $pickupRequest);
+
         abort_unless($pickupRequest->status === 'pending', 422, 'Hanya pengajuan berstatus pending yang bisa disetujui.');
 
         $validated = $request->validate([
@@ -61,6 +63,8 @@ class PickupRequestController extends Controller
 
     public function reject(Request $request, PickupRequest $pickupRequest): RedirectResponse
     {
+        $this->authorize('reject', $pickupRequest);
+
         abort_unless($pickupRequest->status === 'pending', 422, 'Hanya pengajuan berstatus pending yang bisa ditolak.');
 
         $pickupRequest->update(['status' => 'rejected']);

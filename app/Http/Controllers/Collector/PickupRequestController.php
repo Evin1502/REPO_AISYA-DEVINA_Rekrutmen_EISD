@@ -27,7 +27,7 @@ class PickupRequestController extends Controller
 
     public function show(PickupRequest $pickupRequest): View
     {
-        $this->authorizeAssigned($pickupRequest);
+        $this->authorize('view', $pickupRequest);
 
         $pickupRequest->load(['resident', 'wasteCategories', 'pointHistories']);
 
@@ -41,7 +41,7 @@ class PickupRequestController extends Controller
      */
     public function updateStatus(UpdatePickupRequest $request, PickupRequest $pickupRequest): RedirectResponse
     {
-        $this->authorizeAssigned($pickupRequest);
+        $this->authorize('updateStatus', $pickupRequest);
 
         if ($pickupRequest->status === 'approved') {
             $validated = $request->validated();
@@ -118,10 +118,5 @@ class PickupRequestController extends Controller
             ->paginate(10);
 
         return view('collector.history', compact('pickupRequests'));
-    }
-
-    private function authorizeAssigned(PickupRequest $pickupRequest): void
-    {
-        abort_unless($pickupRequest->collector_id === auth()->id(), 403);
     }
 }

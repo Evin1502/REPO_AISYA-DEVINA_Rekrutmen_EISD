@@ -60,9 +60,9 @@ class PickupRequestController extends Controller
             ->with('success', 'Pengajuan pengambilan sampah berhasil dikirim! Menunggu persetujuan Admin.');
     }
 
-    public function show(Request $request, PickupRequest $pickupRequest): View
+    public function show(PickupRequest $pickupRequest): View
     {
-        $this->authorizeOwner($request, $pickupRequest);
+        $this->authorize('view', $pickupRequest);
 
         $pickupRequest->load(['wasteCategories', 'collector', 'pointHistories']);
 
@@ -72,9 +72,9 @@ class PickupRequestController extends Controller
     /**
      * Resident hanya boleh membatalkan pengajuan yang masih berstatus 'pending'.
      */
-    public function destroy(Request $request, PickupRequest $pickupRequest): RedirectResponse
+    public function destroy(PickupRequest $pickupRequest): RedirectResponse
     {
-        $this->authorizeOwner($request, $pickupRequest);
+        $this->authorize('delete', $pickupRequest);
 
         if ($pickupRequest->status !== 'pending') {
             return back()->with('error', 'Pengajuan yang sudah diproses tidak bisa dibatalkan.');
@@ -86,10 +86,5 @@ class PickupRequestController extends Controller
         return redirect()
             ->route('resident.pickup-requests.index')
             ->with('success', 'Pengajuan berhasil dibatalkan.');
-    }
-
-    private function authorizeOwner(Request $request, PickupRequest $pickupRequest): void
-    {
-        abort_unless($pickupRequest->user_id === $request->user()->id, 403);
     }
 }
