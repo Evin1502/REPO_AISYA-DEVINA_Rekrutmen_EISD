@@ -23,6 +23,9 @@ class DashboardController extends Controller
             'collected' => $request->user()->assignedPickups()
                 ->where('status', 'collected')
                 ->count(),
+            'totalWeight' => (float) $request->user()->assignedPickups()
+                ->where('status', 'collected')
+                ->sum('total_weight'),
         ];
 
         $queue = $request->user()->assignedPickups()

@@ -6,120 +6,88 @@
     <title>@yield('title', 'TemJi')</title>
     @include('layouts.partials.head-assets')
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-surface font-sans text-on-surface">
     @php
         $current = request()->route()?->getName();
+        $user = auth()->user();
+        $unread = $user->unreadNotificationsCount();
     @endphp
 
-    <div class="min-h-screen lg:flex">
-        {{-- Mobile top bar --}}
-        <div class="sticky top-0 z-30 flex items-center justify-between bg-brand-600 px-4 py-3 text-white lg:hidden">
-            <a href="{{ route('home') }}" class="font-bold">🗑️ TemJi</a>
-            <button id="hamburger" class="text-white" aria-label="Menu">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </div>
-
-        {{-- Sidebar --}}
-        <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-64 -translate-x-full flex-col bg-brand-700 transition-transform duration-200 lg:static lg:translate-x-0">
-            <div class="flex h-16 items-center gap-2 border-b border-white/10 px-5">
-                <a href="{{ route('home') }}" class="text-lg font-bold text-white">🗑️ TemJi</a>
-                <span class="rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold text-white">Resident</span>
-            </div>
-
-            <div class="flex-1 px-3 py-4">
-                <p class="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-brand-200">Menu</p>
-                <nav class="space-y-1">
-                    <a href="{{ route('resident.dashboard') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.dashboard') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg>
-                        Beranda
-                    </a>
-                    <a href="{{ route('resident.pickup-requests.index') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.pickup-requests') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                        Pengajuan
-                    </a>
-                    <a href="{{ route('resident.point-histories.index') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.point-histories') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                        Riwayat Poin
-                    </a>
-                    <a href="{{ route('resident.rewards.index') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.rewards') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V6a2 2 0 00-2 2h2z"/></svg>
-                        Tukar Poin
-                    </a>
-                    <a href="{{ route('resident.news.index') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.news') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                        Berita
-                    </a>
-                    <a href="{{ route('resident.notifications.index') }}"
-                       class="sidebar-link {{ str_starts_with($current, 'resident.notifications') ? 'sidebar-link-active bg-brand-600' : 'sidebar-link-inactive' }}">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        Notifikasi
-                        @if (auth()->user()->unreadNotificationsCount())
-                            <span class="ml-auto rounded-full bg-white/20 px-2 text-xs">{{ auth()->user()->unreadNotificationsCount() }}</span>
-                        @endif
-                    </a>
+    <header class="sticky top-0 z-40 border-b border-outline-variant/40 bg-surface/90 shadow-sm backdrop-blur-md">
+        <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
+            <div class="flex min-w-0 items-center gap-3 sm:gap-6">
+                <a href="{{ route('resident.dashboard') }}" class="flex shrink-0 items-center gap-2">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
+                        <span class="material-symbols-outlined">recycling</span>
+                    </span>
+                    <span class="hidden sm:flex flex-col leading-none">
+                        <span class="font-display text-lg font-black tracking-tight text-primary">TemJi</span>
+                        <span class="text-[10px] font-semibold uppercase tracking-wider text-secondary">Eco Fin Warga</span>
+                    </span>
+                </a>
+                <nav class="hidden items-center gap-6 md:flex">
+                    <a href="{{ route('resident.dashboard') }}" class="top-nav-link {{ str_starts_with($current, 'resident.dashboard') ? 'top-nav-link-active' : '' }}">Ikhtisar</a>
+                    <a href="{{ route('resident.pickup-requests.index') }}" class="top-nav-link {{ str_starts_with($current, 'resident.pickup-requests') ? 'top-nav-link-active' : '' }}">Jemput Sampah</a>
+                    <a href="{{ route('resident.rewards.index') }}" class="top-nav-link {{ str_starts_with($current, 'resident.rewards') ? 'top-nav-link-active' : '' }}">Katalog Reward</a>
+                    <a href="{{ route('resident.news.index') }}" class="top-nav-link {{ str_starts_with($current, 'resident.news') ? 'top-nav-link-active' : '' }}">Berita</a>
                 </nav>
             </div>
-        </aside>
 
-        {{-- Overlay for mobile --}}
-        <div id="overlay" class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden"></div>
-
-        {{-- Main content --}}
-        <div class="min-w-0 flex-1">
-            {{-- Topbar --}}
-            <header class="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-8">
-                <div>
-                    <h1 class="text-lg font-bold text-slate-900">@yield('title', 'Dashboard')</h1>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="hidden items-center gap-2 rounded-full border border-outline-variant/50 bg-surface-container-lowest px-3 py-1 shadow-sm sm:flex">
+                    <span class="text-xs font-semibold text-tertiary">⭐ {{ number_format($user->points) }} Poin</span>
+                    <span class="text-outline-variant">|</span>
+                    <span class="text-xs font-semibold text-primary">{{ $user->cashBalanceLabel() }}</span>
                 </div>
-                <div class="flex items-center gap-3">
-                    <span class="hidden items-center gap-1 rounded-full bg-brand-50 px-3 py-1 text-sm font-semibold text-brand-700 sm:inline-flex">
-                        ⭐ {{ auth()->user()->points }} poin
-                    </span>
-                    <span class="hidden items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-semibold text-green-700 sm:inline-flex">
-                        💰 {{ auth()->user()->cashBalanceLabel() }}
-                    </span>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-secondary btn-sm">Logout</button>
-                    </form>
+                <a href="{{ route('resident.rewards.index') }}" class="btn btn-primary btn-sm hidden xl:inline-flex">Tukar Poin</a>
+                <a href="{{ route('resident.notifications.index') }}" class="relative rounded-full p-2 text-on-surface-variant hover:bg-surface-container" title="Notifikasi">
+                    <span class="material-symbols-outlined">notifications</span>
+                    @if ($unread)
+                        <span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-error"></span>
+                    @endif
+                </a>
+                <div class="hidden items-center gap-2 pl-1 lg:flex">
+                    <x-user-initials :name="$user->name" />
+                    <div class="hidden flex-col text-left xl:flex">
+                        <span class="text-xs font-semibold leading-tight">{{ $user->name }}</span>
+                        <span class="text-[11px] font-medium text-secondary">Warga</span>
+                    </div>
                 </div>
-            </header>
-
-            <main class="p-4 lg:p-8">
-                @if (session('success'))
-                    <x-alert type="success">{{ session('success') }}</x-alert>
-                @endif
-
-                @if (session('error'))
-                    <x-alert type="error">{{ session('error') }}</x-alert>
-                @endif
-
-                @if ($errors->any())
-                    <x-alert type="error">
-                        <strong>Terjadi kesalahan input:</strong>
-                        <ul class="mt-1 list-disc pl-4">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </x-alert>
-                @endif
-
-                @yield('content')
-            </main>
+                <form method="POST" action="{{ route('logout') }}" class="hidden sm:block">
+                    @csrf
+                    <button type="submit" class="btn btn-secondary btn-sm">Keluar</button>
+                </form>
+                <button id="hamburger" class="inline-flex h-11 w-11 items-center justify-center rounded-lg text-on-surface md:hidden" type="button" aria-label="Menu">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
         </div>
-    </div>
+        <div id="mobile-nav" class="hidden border-t border-outline-variant/40 bg-surface-container-lowest px-4 py-4 md:hidden">
+            <nav class="flex flex-col gap-3 text-sm font-semibold">
+                <a href="{{ route('resident.dashboard') }}">Ikhtisar</a>
+                <a href="{{ route('resident.pickup-requests.index') }}">Jemput Sampah</a>
+                <a href="{{ route('resident.rewards.index') }}">Katalog Reward</a>
+                <a href="{{ route('resident.point-histories.index') }}">Riwayat Poin</a>
+                <a href="{{ route('resident.news.index') }}">Berita</a>
+                <a href="{{ route('resident.notifications.index') }}">Notifikasi @if ($unread)({{ $unread }})@endif</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="text-error">Keluar</button>
+                </form>
+            </nav>
+        </div>
+    </header>
 
-    @include('layouts.partials.sidebar-toggle')
+    <main class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        @include('layouts.partials.flash')
+        @yield('content')
+    </main>
 
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobile-nav');
+        hamburger?.addEventListener('click', () => mobileNav?.classList.toggle('hidden'));
+    </script>
     @stack('scripts')
 </body>
 </html>

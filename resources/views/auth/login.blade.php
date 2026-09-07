@@ -3,8 +3,8 @@
 @section('title', 'Login - TemJi')
 
 @section('content')
-    <h1 class="mb-1 text-center text-xl font-bold text-slate-900">Login</h1>
-    <p class="mb-6 text-center text-sm text-slate-500">Masuk ke akun TemJi Anda</p>
+    <h1 class="mb-1 text-center font-display text-xl font-bold">Masuk</h1>
+    <p class="mb-6 text-center text-sm text-on-surface-variant">Masuk ke akun TemJi Anda</p>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf

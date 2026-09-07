@@ -3,8 +3,8 @@
 @section('title', 'Daftar - TemJi')
 
 @section('content')
-    <h1 class="mb-1 text-center text-xl font-bold text-slate-900">Daftar Akun Resident</h1>
-    <p class="mb-6 text-center text-sm text-slate-500">Registrasi publik hanya untuk role Resident</p>
+    <h1 class="mb-1 text-center font-display text-xl font-bold">Daftar sebagai warga</h1>
+    <p class="mb-6 text-center text-sm text-on-surface-variant">Registrasi publik hanya untuk role Resident</p>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-4">
         @csrf
