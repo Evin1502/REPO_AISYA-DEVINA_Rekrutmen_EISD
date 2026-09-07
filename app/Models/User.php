@@ -19,6 +19,7 @@ class User extends Authenticatable
         'phone',
         'address',
         'points',
+        'cash_balance',
     ];
 
     protected $hidden = [
@@ -31,6 +32,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'cash_balance' => 'decimal:2',
         ];
     }
 
@@ -50,6 +52,15 @@ class User extends Authenticatable
     public function isCollector(): bool
     {
         return $this->role === 'collector';
+    }
+
+    /* ---------------------------------------------------------------
+     |  Saldo / Cash Balance helper (hasil penukaran poin kategori saldo)
+     |---------------------------------------------------------------*/
+
+    public function cashBalanceLabel(): string
+    {
+        return 'Rp'.number_format((float) $this->cash_balance, 0, ',', '.');
     }
 
     /* ---------------------------------------------------------------

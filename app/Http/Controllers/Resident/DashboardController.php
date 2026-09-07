@@ -14,6 +14,7 @@ class DashboardController extends Controller
 
         $data = [
             'pointsBalance' => $user->points,
+            'cashBalanceLabel' => $user->cashBalanceLabel(),
             'pendingPickups' => $user->pickupRequests()->where('status', 'pending')->count(),
             'unreadNotifications' => $user->unreadNotificationsCount(),
             'recentHistories' => $user->pointHistories()

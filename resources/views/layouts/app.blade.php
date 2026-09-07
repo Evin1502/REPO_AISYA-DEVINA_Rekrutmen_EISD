@@ -83,6 +83,9 @@
                     <span class="hidden items-center gap-1 rounded-full bg-brand-50 px-3 py-1 text-sm font-semibold text-brand-700 sm:inline-flex">
                         ⭐ {{ auth()->user()->points }} poin
                     </span>
+                    <span class="hidden items-center gap-1 rounded-full bg-green-50 px-3 py-1 text-sm font-semibold text-green-700 sm:inline-flex">
+                        💰 {{ auth()->user()->cashBalanceLabel() }}
+                    </span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="btn btn-secondary btn-sm">Logout</button>

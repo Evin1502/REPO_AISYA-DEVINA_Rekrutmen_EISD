@@ -24,11 +24,22 @@
                         <div class="flex h-40 items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 text-5xl">🎁</div>
                     @endif
                     <div class="flex flex-1 flex-col p-5">
-                        <h3 class="text-lg font-bold text-slate-900">{{ $reward->name }}</h3>
+                        <div class="flex items-center justify-between gap-2">
+                            <h3 class="text-lg font-bold text-slate-900">{{ $reward->name }}</h3>
+                            <span class="shrink-0 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-600">
+                                {{ $reward->categoryLabel() }}
+                            </span>
+                        </div>
                         <p class="mt-1 flex-1 text-sm text-slate-500">{{ $reward->description ?? 'Tanpa deskripsi.' }}</p>
                         <div class="mt-3 flex items-center justify-between text-sm">
                             <span class="font-semibold text-admin-600">{{ $reward->points_required }} poin</span>
-                            <span class="text-slate-500">Stok: {{ $reward->stock }}</span>
+                            <span class="text-slate-500">
+                                @if ($reward->isSaldo())
+                                    Nilai: {{ $reward->displayValue() }}
+                                @else
+                                    Stok: {{ $reward->stock }}
+                                @endif
+                            </span>
                             <span class="text-xs text-slate-400">{{ $reward->point_exchanges_count }} penukaran</span>
                         </div>
                         <div class="mt-4 flex gap-2">

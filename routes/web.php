@@ -69,6 +69,8 @@ Route::middleware(['auth', 'role:resident'])->prefix('resident')->name('resident
     Route::delete('/pickup-requests/{pickupRequest}', [PickupRequestController::class, 'destroy'])->name('pickup-requests.destroy');
 
     Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
+    Route::get('/rewards/saldo', [RewardController::class, 'saldo'])->name('rewards.saldo');
+    Route::get('/rewards/barang', [RewardController::class, 'barang'])->name('rewards.barang');
     Route::post('/rewards/{reward}/exchange', [PointExchangeController::class, 'store'])->name('rewards.exchange');
     Route::get('/point-exchanges', [PointExchangeController::class, 'index'])->name('point-exchanges.index');
 

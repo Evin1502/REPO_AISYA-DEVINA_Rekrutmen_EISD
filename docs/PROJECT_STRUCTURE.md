@@ -51,18 +51,22 @@ temji/
 │   │       └── Resident/
 │   │           └── StorePickupRequestRequest.php
 │   ├── Models/
-│   │   ├── User.php                    # +role, +points, relasi ke semua entitas
+│   │   ├── User.php                    # +role, +points, +cash_balance, relasi ke semua entitas
 │   │   ├── PickupRequest.php           # inti sistem: pengajuan penjemputan
 │   │   ├── WasteCategory.php           # kategori sampah (many-to-many ke PickupRequest)
 │   │   ├── PointHistory.php            # riwayat mutasi poin (earn/redeem/refund)
-│   │   ├── Reward.php                  # katalog penukaran poin
-│   │   ├── PointExchange.php           # transaksi penukaran poin
+│   │   ├── Reward.php                  # katalog penukaran poin (saldo/barang) + snapshot helpers
+│   │   ├── PointExchange.php           # transaksi penukaran poin (Redemption History Log + status)
 │   │   ├── News.php                    # berita/info terbaru
 │   │   └── AppNotification.php         # notifikasi ke resident
 │   ├── Policies/
 │   │   ├── AppNotificationPolicy.php    # notifikasi hanya pemiliknya boleh tandai dibaca
 │   │   ├── PickupRequestPolicy.php
 │   │   └── PointExchangePolicy.php
+│   ├── Services/
+│   │   └── PointRewardService.php      # # business logic penukaran (redeem/approve/reject)
+│   ├── Exceptions/
+│   │   └── PointExchangeException.php  # pelanggaran aturan bisnis penukaran poin
 │   └── Providers/
 │       └── AppServiceProvider.php
 │
@@ -84,7 +88,10 @@ temji/
 │   │   ├── 2024_01_01_000007_create_point_exchanges_table.php
 │   │   ├── 2024_01_01_000008_create_news_table.php
 │   │   ├── 2024_01_01_000009_create_app_notifications_table.php
-│   │   └── 2025_01_01_000010_add_refund_to_point_histories_type.php
+│   │   ├── 2025_01_01_000010_add_refund_to_point_histories_type.php
+│   │   ├── 2025_01_02_000011_add_category_and_nominal_to_rewards_table.php
+│   │   ├── 2026_09_07_000012_add_cash_balance_to_users_table.php
+│   │   └── 2026_09_07_000013_add_snapshot_columns_to_point_exchanges_table.php
 │   └── seeders/
 │       ├── AdminSeeder.php             # akun admin default (gak lewat register)
 │       ├── CollectorSeeder.php         # akun collector default
@@ -105,7 +112,7 @@ temji/
 │       │   ├── status-badge.blade.php          # badge status + dot indikator
 │       │   └── pickup-status-stepper.blade.php # progress stepper (baru)
 │       ├── layouts/                    # app, admin, auth, collector, landing + partials
-│       ├── resident/                   # dashboard, news, notifications, pickup-requests, point-exchanges, point-histories, rewards
+│       ├── resident/                   # dashboard, news, notifications, pickup-requests, point-exchanges, point-histories, rewards (index + category saldo/barang)
 │       ├── vendor/pagination/          # override tampilan pagination
 │       ├── home.blade.php
 │
@@ -118,7 +125,8 @@ temji/
 │   │   ├── Admin/       (PickupRequestManagementTest, PointExchangeTest)
 │   │   ├── Auth/        (RoleAccessTest)
 │   │   ├── Collector/   (PickupCollectionTest)
-│   │   └── Resident/    (PickupRequestLifecycleTest)
+│   │   ├── Resident/    (PickupRequestLifecycleTest, PointExchangeTest)
+│   │   └── RewardCatalogTest.php        # verifikasi jenjang katalog seeder
 │   └── Unit/
 │
 ├── public/                             # entry point (index.php), asset build

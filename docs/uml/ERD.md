@@ -29,6 +29,7 @@ erDiagram
         string phone
         string address
         int points "default 0"
+        decimal cash_balance "default 0, akumulasi saldo cash"
     }
 
     WASTE_CATEGORIES {
@@ -70,6 +71,8 @@ erDiagram
     REWARDS {
         bigint id PK
         string name
+        enum category "saldo | barang"
+        decimal nominal "hanya untuk saldo, nullable"
         text description
         int points_required
         int stock
@@ -80,6 +83,9 @@ erDiagram
         bigint id PK
         bigint user_id FK
         bigint reward_id FK
+        enum reward_type "saldo | barang"
+        string reward_name "snapshot"
+        decimal value "nominal saldo, nullable untuk barang"
         int points_used
         enum status "pending|approved|rejected"
     }
@@ -116,6 +122,9 @@ erDiagram
 | `2024_01_01_000008_create_news_table.php` | `news` | "Melihat info berita terbaru" (Resident) |
 | `2024_01_01_000009_create_app_notifications_table.php` | `app_notifications` | "Menerima notifikasi atau berita terbaru" (Resident) |
 | `2025_01_01_000010_add_refund_to_point_histories_type.php` | `point_histories` (+enum value) | pengembalian poin saat Admin menolak penukaran |
+| `2025_01_02_000011_add_category_and_nominal_to_rewards_table.php` | `rewards` (+category saldo/barang, nominal) | pembeda reward saldo & barang pada katalog |
+| `2026_09_07_000012_add_cash_balance_to_users_table.php` | `users` (+cash_balance) | akumulasi saldo cash reward yang disetujui |
+| `2026_09_07_000013_add_snapshot_columns_to_point_exchanges_table.php` | `point_exchanges` (+reward_type, reward_name, value) | Redemption History Log mandiri (snapshot katalog) |
 
 ## 3. Relasi Wajib (sesuai requirement)
 

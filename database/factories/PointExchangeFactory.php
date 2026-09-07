@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\PointExchange;
 use App\Models\Reward;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PointExchange>
+ * @extends Factory<PointExchange>
  */
 class PointExchangeFactory extends Factory
 {
@@ -16,6 +17,9 @@ class PointExchangeFactory extends Factory
         return [
             'user_id' => User::factory(),
             'reward_id' => Reward::factory(),
+            'reward_type' => Reward::CATEGORY_BARANG,
+            'reward_name' => fake()->words(3, true),
+            'value' => null,
             'points_used' => fake()->numberBetween(50, 300),
             'status' => 'pending',
         ];

@@ -33,6 +33,28 @@
                     </div>
 
                     <div>
+                        <label for="category" class="form-label">Jenis Reward</label>
+                        <select id="category" name="category" required
+                                class="form-select @error('category') input-error @enderror">
+                            <option value="saldo" @selected(old('category', $reward->category) === 'saldo')>Saldo / Cash Balance</option>
+                            <option value="barang" @selected(old('category', $reward->category) === 'barang')>Barang Fisik</option>
+                        </select>
+                        @error('category')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div id="nominalField">
+                        <label for="nominal" class="form-label">Nominal Saldo (Rp)</label>
+                        <input type="number" id="nominal" name="nominal" min="0" step="1" value="{{ old('nominal', $reward->nominal) }}"
+                               class="form-control @error('nominal') input-error @enderror">
+                        @error('nominal')
+                            <div class="form-error">{{ $message }}</div>
+                        @enderror
+                        <div class="form-text">Dipilih pada jenjang Rp5.000 s.d. Rp100.000.</div>
+                    </div>
+
+                    <div>
                         <label for="points_required" class="form-label">Poin yang Dibutuhkan</label>
                         <input type="number" id="points_required" name="points_required" min="1" value="{{ old('points_required', $reward->points_required) }}" required
                                class="form-control @error('points_required') input-error @enderror">
@@ -48,6 +70,7 @@
                         @error('stock')
                             <div class="form-error">{{ $message }}</div>
                         @enderror
+                        <div class="form-text">Saldo bersifat virtual, isikan angka besar (mis. 999999).</div>
                     </div>
 
                     <div>
@@ -76,4 +99,21 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            const category = document.getElementById('category');
+            const nominalField = document.getElementById('nominalField');
+            const nominal = document.getElementById('nominal');
+
+            function toggleNominal() {
+                const isSaldo = category.value === 'saldo';
+                nominalField.classList.toggle('hidden', !isSaldo);
+                nominal.required = isSaldo;
+            }
+
+            category.addEventListener('change', toggleNominal);
+            toggleNominal();
+        </script>
+    @endpush
 @endsection

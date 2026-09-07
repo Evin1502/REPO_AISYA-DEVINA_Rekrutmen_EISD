@@ -22,6 +22,8 @@
                         <tr>
                             <th>#</th>
                             <th>Reward</th>
+                            <th>Jenis</th>
+                            <th>Nilai</th>
                             <th>Poin Dipakai</th>
                             <th>Tanggal</th>
                             <th>Status</th>
@@ -31,7 +33,9 @@
                         @foreach ($pointExchanges as $exchange)
                             <tr>
                                 <td>{{ $pointExchanges->firstItem() + $loop->index }}</td>
-                                <td class="font-medium">{{ $exchange->reward->name }}</td>
+                                <td class="font-medium">{{ $exchange->reward_name ?? $exchange->reward?->name }}</td>
+                                <td><span class="text-xs">{{ $exchange->typeLabel() }}</span></td>
+                                <td>{{ $exchange->displayValue() }}</td>
                                 <td>{{ number_format($exchange->points_used) }}</td>
                                 <td>{{ $exchange->created_at->format('d M Y H:i') }}</td>
                                 <td><x-status-badge :status="$exchange->status" /></td>

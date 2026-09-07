@@ -93,13 +93,16 @@
                             @method('PATCH')
                             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 <div>
-                                    <label for="collector_id" class="form-label">Tugaskan Kolektor</label>
-                                    <select id="collector_id" name="collector_id" class="form-select">
+                                    <label for="collector_id" class="form-label">Tugaskan Kolektor <span class="text-red-500">*</span></label>
+                                    <select id="collector_id" name="collector_id" required class="form-select @error('collector_id') input-error @enderror">
                                         <option value="">Pilih kolektor ...</option>
                                         @foreach ($collectors as $collector)
                                             <option value="{{ $collector->id }}" @selected(old('collector_id') == $collector->id)>{{ $collector->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('collector_id')
+                                        <div class="form-error">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div>
                                     <label for="scheduled_at" class="form-label">Jadwal Pengambilan</label>

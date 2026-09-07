@@ -41,19 +41,18 @@ class PickupRequestController extends Controller
         abort_unless($pickupRequest->status === 'pending', 422, 'Hanya pengajuan berstatus pending yang bisa disetujui.');
 
         $validated = $request->validate([
-            'collector_id' => ['nullable', 'exists:users,id'],
+            'collector_id' => ['required', 'exists:users,id'],
             'scheduled_at' => ['nullable', 'date'],
         ]);
 
-        if (! empty($validated['collector_id'])
-            && User::whereKey($validated['collector_id'])->where('role', 'collector')->doesntExist()) {
+        if (User::whereKey($validated['collector_id'])->where('role', 'collector')->doesntExist()) {
             return back()->with('error', 'Pilih kolektor yang valid.');
         }
 
         $pickupRequest->update([
             'status' => 'approved',
-            'collector_id' => $validated['collector_id'] ?? $pickupRequest->collector_id,
-            'scheduled_at' => $validated['scheduled_at'] ?? $pickupRequest->scheduled_at,
+            'collector_id' => $validated['collector_id'],
+            'scheduled_at' => $validated['scheduled_at'] ?? null,
         ]);
 
         return redirect()

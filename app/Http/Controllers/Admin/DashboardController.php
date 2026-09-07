@@ -21,6 +21,9 @@ class DashboardController extends Controller
                 ->count(),
             'pendingExchanges' => PointExchange::where('status', 'pending')->count(),
             'totalPointsDistributed' => (int) PickupRequest::where('status', 'collected')->sum('total_points'),
+            'approvedSaldoValue' => (float) PointExchange::where('reward_type', 'saldo')
+                ->where('status', 'approved')
+                ->sum('value'),
         ];
 
         $recentPickupRequests = PickupRequest::with(['resident', 'collector'])

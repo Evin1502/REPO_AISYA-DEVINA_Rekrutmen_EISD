@@ -3,7 +3,7 @@
 @section('title', 'Dashboard - Admin TemJi')
 
 @section('content')
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-6">
         <div class="stat-card">
             <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-50 text-2xl">👥</div>
             <div>
@@ -37,6 +37,15 @@
             <div>
                 <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Poin Diberikan</p>
                 <p class="text-2xl font-bold text-slate-900">{{ number_format($stats['totalPointsDistributed']) }}</p>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100 text-2xl">💰</div>
+            <div>
+                <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Saldo Disetujui</p>
+                <p class="text-2xl font-bold text-green-700">
+                    Rp{{ number_format($stats['approvedSaldoValue'], 0, ',', '.') }}
+                </p>
             </div>
         </div>
     </div>

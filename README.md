@@ -67,7 +67,8 @@ Akun demo setelah `--seed`:
 Lihat [`docs/uml/ERD.md`](docs/uml/ERD.md) untuk diagram relasi entitas (ERD) lengkap
 beserta pemetaan tiap tabel migration ke use case pada studi kasus, dan
 [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md) untuk penjelasan struktur folder
-dan alur MVC.
+dan alur MVC. Spesifikasi lengkap modul **Point Reward** (katalog jenjang saldo, logika
+penukaran/refund, dan skema transaksi) ada di [`docs/POINT_REWARD_SYSTEM.md`](docs/POINT_REWARD_SYSTEM.md).
 
 ## Menjalankan Test
 

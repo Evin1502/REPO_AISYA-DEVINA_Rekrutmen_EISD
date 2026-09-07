@@ -30,6 +30,19 @@ class PickupRequestManagementTest extends TestCase
         $this->assertNotNull($pickupRequest->scheduled_at);
     }
 
+    public function test_admin_cannot_approve_without_assigning_collector(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $resident = User::factory()->resident()->create();
+        $pickupRequest = PickupRequest::factory()->pending()->create(['user_id' => $resident->id]);
+
+        $this->actingAs($admin)->patch(route('admin.pickup-requests.approve', $pickupRequest), [
+            'collector_id' => '',
+        ])->assertSessionHasErrors('collector_id');
+
+        $this->assertEquals('pending', $pickupRequest->fresh()->status);
+    }
+
     public function test_admin_can_reject_pickup_request(): void
     {
         $admin = User::factory()->admin()->create();
