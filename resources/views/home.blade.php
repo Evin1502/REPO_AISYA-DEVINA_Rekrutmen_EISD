@@ -62,6 +62,37 @@
         </div>
     </section>
 
+    {{-- ── SDG ALIGNMENT ── --}}
+    <section class="border-y border-black/5 bg-forest-800">
+        <div class="mx-auto max-w-6xl px-5 py-10">
+            <p class="text-center text-xs font-semibold uppercase tracking-widest text-white/50">
+                Mendukung Sustainable Development Goals
+            </p>
+            <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div class="flex items-start gap-4 rounded-xl bg-white/5 p-5 ring-1 ring-white/10">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-500 text-lg font-black text-white">11</span>
+                    <div>
+                        <p class="font-semibold text-white">Sustainable Cities and Communities</p>
+                        <p class="mt-1 text-sm leading-relaxed text-white/60">
+                            Target 11.6 — mengurangi dampak lingkungan perkotaan lewat pengelolaan
+                            sampah kota yang lebih terstruktur dan terlacak.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 rounded-xl bg-white/5 p-5 ring-1 ring-white/10">
+                    <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-gold text-lg font-black text-white">12</span>
+                    <div>
+                        <p class="font-semibold text-white">Responsible Consumption and Production</p>
+                        <p class="mt-1 text-sm leading-relaxed text-white/60">
+                            Target 12.5 — mendorong pemilahan &amp; daur ulang sampah lewat insentif
+                            poin per kategori.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {{-- ── CARA KERJA ── --}}
     <section id="cara-kerja" class="border-y border-black/5 bg-white">
         <div class="mx-auto max-w-6xl px-5 py-16">
