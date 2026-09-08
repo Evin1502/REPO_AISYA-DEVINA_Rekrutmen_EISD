@@ -10,8 +10,7 @@ Proyek ini secara eksplisit dirancang untuk mendukung:
 
 - **SDG 11 — Sustainable Cities and Communities**, poin 11.6: mengurangi dampak
   lingkungan perkotaan lewat pengelolaan sampah kota yang lebih baik dan terlacak.
-- **SDG 12 — Responsible Consumption and Production**, poin 12.5: mendorong daur ulang
-  dan pengurangan timbulan sampah lewat insentif poin per kategori sampah.
+
 
 Implementasi konkretnya:
 
