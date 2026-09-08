@@ -86,7 +86,7 @@
                             <div>
                                 <div class="mb-0.5 flex flex-wrap items-center gap-2">
                                     <span class="text-sm font-bold">#TJ-{{ str_pad($pickupRequest->id, 4, '0', STR_PAD_LEFT) }} • {{ $pickupRequest->resident?->name }}</span>
-                                    <x-status-badge :status="$pickupRequest->status" />
+                                    <x-status-badge :status="$pickupRequest->status" :label="$pickupRequest->statusLabel()" />
                                 </div>
                                 <p class="flex items-center gap-1 text-xs text-on-surface-variant">
                                     <span class="material-symbols-outlined text-sm text-primary">location_on</span>

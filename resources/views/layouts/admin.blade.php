@@ -16,7 +16,7 @@
 
     <div class="min-h-screen lg:flex">
         <div class="sticky top-0 z-30 flex items-center justify-between border-b border-outline-variant/40 bg-surface-container-low px-4 py-3 lg:hidden">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-display font-black text-primary">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-display font-black text-admin-600">
                 <span class="material-symbols-outlined">recycling</span> TemJi
             </a>
             <button id="hamburger" class="inline-flex h-11 w-11 items-center justify-center rounded-lg" type="button" aria-label="Menu">
@@ -28,45 +28,45 @@
             <div class="flex h-full flex-col justify-between">
                 <div class="flex flex-col gap-4">
                     <div class="flex items-center gap-2 px-1">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-admin-600 text-white shadow-sm">
                             <span class="material-symbols-outlined">recycling</span>
                         </div>
                         <div>
                             <div class="flex items-center gap-1.5">
-                                <span class="font-display text-base font-bold tracking-tight text-primary">TemJi</span>
-                                <span class="rounded bg-secondary-container px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-on-secondary-container">Admin</span>
+                                <span class="font-display text-base font-bold tracking-tight text-admin-600">TemJi</span>
+                                <span class="rounded bg-admin-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-admin-700">Admin</span>
                             </div>
                             <p class="text-[11px] font-medium text-on-surface-variant">Hub pengelola</p>
                         </div>
                     </div>
                     <nav class="mt-1 flex flex-col gap-1">
-                        <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ $current === 'admin.dashboard' ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ $current === 'admin.dashboard' ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">dashboard</span> Ringkasan
                         </a>
-                        <a href="{{ route('admin.pickup-requests.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.pickup-requests') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.pickup-requests.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.pickup-requests') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">local_shipping</span>
                             <span class="flex-1">Penjemputan</span>
                             @if ($pendingPickups)
                                 <span class="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-800">{{ $pendingPickups }}</span>
                             @endif
                         </a>
-                        <a href="{{ route('admin.waste-categories.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.waste-categories') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.waste-categories.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.waste-categories') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">inventory_2</span> Kategori material
                         </a>
-                        <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.users') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.users.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.users') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">group</span> Data warga &amp; mitra
                         </a>
-                        <a href="{{ route('admin.rewards.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.rewards') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.rewards.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.rewards') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">redeem</span> Katalog reward
                         </a>
-                        <a href="{{ route('admin.point-exchanges.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.point-exchanges') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.point-exchanges.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.point-exchanges') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
                             <span class="flex-1">Rekonsiliasi poin</span>
                             @if ($pendingExchanges)
-                                <span class="rounded-full bg-primary/10 px-2 py-0.5 text-[11px] font-bold text-primary">{{ $pendingExchanges }}</span>
+                                <span class="rounded-full bg-admin-50 px-2 py-0.5 text-[11px] font-bold text-admin-700">{{ $pendingExchanges }}</span>
                             @endif
                         </a>
-                        <a href="{{ route('admin.news.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.news') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('admin.news.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.news') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">campaign</span> Berita
                         </a>
                     </nav>
@@ -74,7 +74,7 @@
                 <div class="border-t border-outline-variant/40 pt-3">
                     <div class="mb-3 flex items-center justify-between rounded-md bg-surface-container px-3 py-1.5 text-[11px]">
                         <div class="flex items-center gap-1.5">
-                            <span class="h-2 w-2 animate-pulse rounded-full bg-primary"></span>
+                            <span class="h-2 w-2 animate-pulse rounded-full bg-admin-600"></span>
                             <span class="font-medium text-on-surface-variant">Sistem aktif</span>
                         </div>
                     </div>

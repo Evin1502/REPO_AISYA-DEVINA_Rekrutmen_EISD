@@ -44,6 +44,7 @@ erDiagram
         bigint user_id FK
         bigint collector_id FK "nullable"
         text address
+        string area "kelurahan/kecamatan, dari config('temji.service_areas')"
         enum status "pending|approved|scheduled|collected|rejected"
         datetime scheduled_at
         decimal total_weight
@@ -125,6 +126,7 @@ erDiagram
 | `2025_01_02_000011_add_category_and_nominal_to_rewards_table.php` | `rewards` (+category saldo/barang, nominal) | pembeda reward saldo & barang pada katalog |
 | `2026_09_07_000012_add_cash_balance_to_users_table.php` | `users` (+cash_balance) | akumulasi saldo cash reward yang disetujui |
 | `2026_09_07_000013_add_snapshot_columns_to_point_exchanges_table.php` | `point_exchanges` (+reward_type, reward_name, value) | Redemption History Log mandiri (snapshot katalog) |
+| `2026_09_08_000015_add_area_to_pickup_requests_table.php` | `pickup_requests` (+area) | breakdown & agregasi sampah per wilayah kota (SDG 11.6) di dashboard Admin |
 
 ## 3. Relasi Wajib (sesuai requirement)
 

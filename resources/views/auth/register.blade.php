@@ -64,7 +64,7 @@
         <button type="submit" class="btn btn-primary w-full">Daftar</button>
     </form>
 
-    <p class="mt-5 text-center text-sm text-slate-600">
+    <p class="mt-5 text-center text-sm text-on-surface-variant">
         Sudah punya akun? <a href="{{ route('login') }}" class="font-semibold text-brand-600 hover:underline">Login di sini</a>
     </p>
 @endsection

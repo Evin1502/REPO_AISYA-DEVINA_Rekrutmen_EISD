@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex items-center justify-between">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Berita</h1>
-            <p class="text-sm text-slate-500">Kelola artikel berita untuk resident.</p>
+            <h1 class="text-xl font-bold text-on-surface">Berita</h1>
+            <p class="text-sm text-on-surface-variant">Kelola artikel berita untuk resident.</p>
         </div>
         <a href="{{ route('admin.news.create') }}" class="btn btn-primary">＋ Tulis Berita</a>
     </div>
@@ -18,7 +18,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>Judul</th>
                             <th>Penulis</th>

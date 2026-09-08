@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Pengguna</h1>
-            <p class="text-sm text-slate-500">Daftar semua pengguna TemJi.</p>
+            <h1 class="text-xl font-bold text-on-surface">Pengguna</h1>
+            <p class="text-sm text-on-surface-variant">Daftar semua pengguna TemJi.</p>
         </div>
         <form method="GET" action="{{ route('admin.users.index') }}" class="flex items-center gap-2">
             <input type="text" name="search" value="{{ $search }}"
@@ -27,7 +27,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>Nama</th>
                             <th>Email</th>
@@ -43,7 +43,7 @@
                                 <td class="font-medium">{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    <span class="inline-flex rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-semibold text-slate-700">
+                                    <span class="inline-flex rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-semibold text-on-surface">
                                         {{ ucfirst($user->role) }}
                                     </span>
                                 </td>

@@ -8,7 +8,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 class="text-lg font-bold text-slate-900">Tambah Kategori Sampah</h1>
+                <h1 class="text-lg font-bold text-on-surface">Tambah Kategori Sampah</h1>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.waste-categories.store') }}" class="space-y-5">

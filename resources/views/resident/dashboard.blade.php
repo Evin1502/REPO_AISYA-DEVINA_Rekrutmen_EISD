@@ -192,7 +192,7 @@
                                         </div>
                                     </td>
                                     <td>{{ $pickup->created_at->format('d M Y') }}</td>
-                                    <td><x-status-badge :status="$pickup->status" /></td>
+                                    <td><x-status-badge :status="$pickup->status" :label="$pickup->statusLabel()" /></td>
                                     <td class="text-right">
                                         <a href="{{ route('resident.pickup-requests.show', $pickup) }}" class="btn btn-secondary btn-sm">Struk</a>
                                     </td>

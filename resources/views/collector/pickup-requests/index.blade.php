@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="mb-4">
-        <h1 class="text-xl font-bold text-slate-900">Antrean Penjemputan</h1>
-        <p class="text-sm text-slate-500">Pengajuan yang ditugaskan kepada Anda.</p>
+        <h1 class="text-xl font-bold text-on-surface">Antrean Penjemputan</h1>
+        <p class="text-sm text-on-surface-variant">Pengajuan yang ditugaskan kepada Anda.</p>
     </div>
 
     @if ($pickupRequests->isEmpty())
@@ -14,7 +14,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Resident</th>
@@ -39,7 +39,7 @@
                                     </div>
                                 </td>
                                 <td>{{ $pickupRequest->scheduled_at?->format('d M Y H:i') ?? '-' }}</td>
-                                <td><x-status-badge :status="$pickupRequest->status" /></td>
+                                <td><x-status-badge :status="$pickupRequest->status" :label="$pickupRequest->statusLabel()" /></td>
                                 <td class="text-right">
                                     <a href="{{ route('collector.pickup-requests.show', $pickupRequest) }}" class="btn btn-secondary btn-sm">Detail</a>
                                 </td>

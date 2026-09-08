@@ -27,20 +27,20 @@
             @enderror
         </div>
 
-        <label class="flex items-center gap-2 text-sm text-slate-600">
-            <input type="checkbox" name="remember" class="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+        <label class="flex items-center gap-2 text-sm text-on-surface-variant">
+            <input type="checkbox" name="remember" class="h-4 w-4 rounded border-outline-variant text-brand-600 focus:ring-brand-500">
             Ingat saya
         </label>
 
         <button type="submit" class="btn btn-primary w-full">Login</button>
     </form>
 
-    <p class="mt-5 text-center text-sm text-slate-600">
+    <p class="mt-5 text-center text-sm text-on-surface-variant">
         Belum punya akun? <a href="{{ route('register') }}" class="font-semibold text-brand-600 hover:underline">Daftar di sini</a>
     </p>
 
-    <div class="mt-6 rounded-lg bg-slate-50 p-3 text-xs text-slate-500">
-        <p class="font-semibold text-slate-600">Akun demo (dari Seeder):</p>
+    <div class="mt-6 rounded-lg bg-surface-container-low p-3 text-xs text-on-surface-variant">
+        <p class="font-semibold text-on-surface">Akun demo (dari Seeder):</p>
         <p>Admin: admin@temji.test / admin12345</p>
         <p>Collector: collector1@temji.test / collector12345</p>
     </div>

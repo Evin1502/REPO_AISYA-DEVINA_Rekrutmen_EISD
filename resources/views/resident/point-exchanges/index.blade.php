@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex items-center justify-between">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Riwayat Penukaran Poin</h1>
-            <p class="text-sm text-slate-500">Riwayat penukaran reward Anda.</p>
+            <h1 class="text-xl font-bold text-on-surface">Riwayat Penukaran Poin</h1>
+            <p class="text-sm text-on-surface-variant">Riwayat penukaran reward Anda.</p>
         </div>
         <a href="{{ route('resident.rewards.index') }}" class="btn btn-primary">Lihat Katalog Reward</a>
     </div>
@@ -18,7 +18,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Reward</th>

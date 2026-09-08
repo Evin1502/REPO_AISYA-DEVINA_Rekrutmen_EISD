@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="mb-4">
-        <h1 class="text-xl font-bold text-slate-900">Notifikasi</h1>
-        <p class="text-sm text-slate-500">Pemberitahuan dari TemJi untuk Anda.</p>
+        <h1 class="text-xl font-bold text-on-surface">Notifikasi</h1>
+        <p class="text-sm text-on-surface-variant">Pemberitahuan dari TemJi untuk Anda.</p>
     </div>
 
     @if ($notifications->isEmpty())
@@ -17,13 +17,13 @@
                     <div class="flex items-start justify-between gap-3">
                         <div class="min-w-0">
                             <div class="flex items-center gap-2">
-                                <p class="font-semibold text-slate-900">{{ $notification->title }}</p>
+                                <p class="font-semibold text-on-surface">{{ $notification->title }}</p>
                                 @if (!$notification->is_read)
                                     <span class="inline-flex rounded-full bg-brand-600 px-2 py-0.5 text-xs font-semibold text-white">Baru</span>
                                 @endif
                             </div>
-                            <p class="mt-1 text-sm text-slate-600">{{ $notification->message }}</p>
-                            <small class="text-xs text-slate-400">{{ $notification->created_at->diffForHumans() }}</small>
+                            <p class="mt-1 text-sm text-on-surface-variant">{{ $notification->message }}</p>
+                            <small class="text-xs text-outline">{{ $notification->created_at->diffForHumans() }}</small>
                         </div>
                         @if (!$notification->is_read)
                             <form method="POST" action="{{ route('resident.notifications.read', $notification) }}">

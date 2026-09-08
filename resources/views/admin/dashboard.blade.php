@@ -69,6 +69,64 @@
         </div>
     </section>
 
+    <section class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <div class="kpi-card xl:col-span-1">
+            <div class="mb-2 flex items-center justify-between text-on-surface-variant">
+                <span class="text-xs font-semibold uppercase tracking-wide">Ketepatan waktu</span>
+                <span class="material-symbols-outlined text-primary">schedule</span>
+            </div>
+            @if ($stats['onTimeRate'] === null)
+                <div class="my-1">
+                    <span class="font-display text-2xl font-bold text-on-surface-variant">Belum ada data</span>
+                </div>
+                <div class="mt-3 border-t border-outline-variant/30 pt-2 text-[11px] text-on-surface-variant">
+                    Muncul setelah ada penjemputan berjadwal yang selesai
+                </div>
+            @else
+                <div class="my-1 flex items-baseline gap-1">
+                    <span class="font-display text-4xl font-black">{{ number_format($stats['onTimeRate'], 1) }}</span>
+                    <span class="text-sm font-semibold text-on-surface-variant">%</span>
+                </div>
+                <div class="mt-3 border-t border-outline-variant/30 pt-2 text-[11px] text-on-surface-variant">
+                    Selesai ≤ 60 menit dari jadwal
+                </div>
+            @endif
+        </div>
+
+        <div class="card p-5 xl:col-span-2">
+            <div class="mb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="font-display text-base font-bold">Sebaran sampah terolah per wilayah</h2>
+                    <p class="text-xs text-on-surface-variant">Cakupan pengelolaan sampah lintas wilayah kota (SDG 11.6)</p>
+                </div>
+                <span class="material-symbols-outlined text-outline">map</span>
+            </div>
+
+            @if ($areaBreakdown->isEmpty())
+                <p class="py-6 text-center text-sm text-on-surface-variant">
+                    Belum ada penjemputan selesai dengan data wilayah.
+                </p>
+            @else
+                @php $maxWeight = $areaBreakdown->max('total_weight') ?: 1; @endphp
+                <div class="flex flex-col gap-3">
+                    @foreach ($areaBreakdown as $row)
+                        <div>
+                            <div class="mb-1 flex items-center justify-between text-xs">
+                                <span class="font-semibold text-on-surface">{{ $row->area }}</span>
+                                <span class="text-on-surface-variant">
+                                    {{ number_format($row->total_weight, 1) }} kg · {{ number_format($row->total_pickups) }} penjemputan
+                                </span>
+                            </div>
+                            <div class="h-2 w-full overflow-hidden rounded-full bg-surface-container">
+                                <div class="h-full rounded-full bg-primary" style="width: {{ max(4, round($row->total_weight / $maxWeight * 100)) }}%"></div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    </section>
+
     <div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
         <div class="xl:col-span-2">
             <div class="mb-4 flex items-center justify-between">
@@ -101,7 +159,7 @@
                                     <td class="font-medium">{{ $pickupRequest->resident?->name ?? '-' }}</td>
                                     <td>{{ $pickupRequest->collector?->name ?? '—' }}</td>
                                     <td>{{ $pickupRequest->created_at->format('d M Y') }}</td>
-                                    <td><x-status-badge :status="$pickupRequest->status" /></td>
+                                    <td><x-status-badge :status="$pickupRequest->status" :label="$pickupRequest->statusLabel()" /></td>
                                     <td class="text-right">
                                         <a href="{{ route('admin.pickup-requests.show', $pickupRequest) }}" class="btn btn-primary btn-sm">Detail</a>
                                     </td>

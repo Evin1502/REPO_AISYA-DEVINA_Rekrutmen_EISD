@@ -6,51 +6,51 @@
     <div class="mx-auto max-w-3xl">
         <div class="mb-4 flex items-center justify-between">
             <a href="{{ route('collector.pickup-requests.index') }}" class="text-sm font-semibold text-collector-600 hover:underline">&larr; Kembali ke Antrean</a>
-            <x-status-badge :status="$pickupRequest->status" class="text-sm" />
+            <x-status-badge :status="$pickupRequest->status" :label="$pickupRequest->statusLabel()" class="text-sm" />
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h1 class="text-lg font-bold text-slate-900">Penjemputan #{{ $pickupRequest->id }}</h1>
+                <h1 class="text-lg font-bold text-on-surface">Penjemputan #{{ $pickupRequest->id }}</h1>
             </div>
             <div class="card-body">
                 <dl class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                        <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Resident</dt>
-                        <dd class="mt-1 text-sm font-semibold text-slate-900">{{ $pickupRequest->resident?->name ?? '-' }}</dd>
+                        <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">Resident</dt>
+                        <dd class="mt-1 text-sm font-semibold text-on-surface">{{ $pickupRequest->resident?->name ?? '-' }}</dd>
                     </div>
                     <div>
-                        <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">No. HP</dt>
-                        <dd class="mt-1 text-sm text-slate-900">{{ $pickupRequest->resident?->phone ?? '-' }}</dd>
+                        <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">No. HP</dt>
+                        <dd class="mt-1 text-sm text-on-surface">{{ $pickupRequest->resident?->phone ?? '-' }}</dd>
                     </div>
                     <div class="sm:col-span-2">
-                        <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Alamat</dt>
-                        <dd class="mt-1 text-sm text-slate-900">{{ $pickupRequest->address }}</dd>
+                        <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">Alamat</dt>
+                        <dd class="mt-1 text-sm text-on-surface">{{ $pickupRequest->address }}</dd>
                     </div>
                     @if ($pickupRequest->scheduled_at)
                         <div>
-                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Jadwal</dt>
-                            <dd class="mt-1 text-sm text-slate-900">{{ $pickupRequest->scheduled_at->format('d M Y H:i') }}</dd>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">Jadwal</dt>
+                            <dd class="mt-1 text-sm text-on-surface">{{ $pickupRequest->scheduled_at->format('d M Y H:i') }}</dd>
                         </div>
                     @endif
                     @if ($pickupRequest->total_points)
                         <div>
-                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Total Poin</dt>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">Total Poin</dt>
                             <dd class="mt-1 text-sm font-bold text-green-600">+{{ number_format($pickupRequest->total_points) }}</dd>
                         </div>
                     @endif
                     @if ($pickupRequest->notes)
                         <div class="sm:col-span-2">
-                            <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">Catatan Resident</dt>
-                            <dd class="mt-1 text-sm text-slate-900">{{ $pickupRequest->notes }}</dd>
+                            <dt class="text-xs font-medium uppercase tracking-wide text-on-surface-variant">Catatan Resident</dt>
+                            <dd class="mt-1 text-sm text-on-surface">{{ $pickupRequest->notes }}</dd>
                         </div>
                     @endif
                 </dl>
 
-                <h2 class="mb-3 mt-6 text-sm font-bold uppercase tracking-wide text-slate-500">Kategori Sampah</h2>
+                <h2 class="mb-3 mt-6 text-sm font-bold uppercase tracking-wide text-on-surface-variant">Kategori Sampah</h2>
                 <div class="card overflow-hidden">
                     <table class="table w-full">
-                        <thead class="bg-slate-50">
+                        <thead class="bg-surface-container-low">
                             <tr>
                                 <th>Kategori</th>
                                 <th>Poin / kg</th>
@@ -103,9 +103,9 @@
                             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 @foreach ($pickupRequest->wasteCategories as $category)
                                     <div class="rounded-lg bg-white p-3 ring-1 ring-green-100">
-                                        <label for="weight-{{ $category->id }}" class="text-sm font-semibold text-slate-800">
+                                        <label for="weight-{{ $category->id }}" class="text-sm font-semibold text-on-surface">
                                             {{ $category->name }}
-                                            <span class="ml-1 text-xs font-normal text-slate-500">({{ $category->points_per_kg }} poin/kg)</span>
+                                            <span class="ml-1 text-xs font-normal text-on-surface-variant">({{ $category->points_per_kg }} poin/kg)</span>
                                         </label>
                                         <input type="number" step="0.1" min="0" id="weight-{{ $category->id }}"
                                                name="actual_weight[{{ $category->id }}]"

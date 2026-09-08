@@ -22,11 +22,11 @@
                 <img src="{{ asset('storage/' . $news->image) }}" alt="{{ $news->title }}" class="h-64 w-full object-cover">
             @endif
             <div class="card-body p-6">
-                <p class="mb-2 text-xs text-slate-500">
+                <p class="mb-2 text-xs text-on-surface-variant">
                     {{ $news->author?->name ?? 'Admin' }} &middot; {{ $news->created_at->format('d M Y H:i') }}
                 </p>
-                <h1 class="mb-4 text-2xl font-bold text-slate-900">{{ $news->title }}</h1>
-                <div class="whitespace-pre-wrap text-sm leading-relaxed text-slate-700">
+                <h1 class="mb-4 text-2xl font-bold text-on-surface">{{ $news->title }}</h1>
+                <div class="whitespace-pre-wrap text-sm leading-relaxed text-on-surface">
                     {!! nl2br(e($news->content)) !!}
                 </div>
                 <a href="{{ route('resident.news.show', $news) }}" target="_blank"

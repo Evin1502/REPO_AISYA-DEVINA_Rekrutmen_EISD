@@ -171,6 +171,20 @@
         @apply text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface;
     }
 
+    /*
+     * Role chrome accents (DESIGN.md: "Sidebar: Contextual navigation
+     * background matching the user role" - Admin = Deep Indigo,
+     * Collector = Industrial Amber, Resident tetap pakai warna brand hijau
+     * lewat .sidebar-link-active di atas).
+     */
+    .sidebar-link-active-admin {
+        @apply bg-admin-600 text-white shadow-sm;
+    }
+
+    .sidebar-link-active-collector {
+        @apply bg-collector-600 text-white shadow-sm;
+    }
+
     .stat-card {
         @apply flex items-center gap-4 rounded-xl bg-surface-container-lowest p-5 shadow-sm ring-1 ring-outline-variant/40;
     }

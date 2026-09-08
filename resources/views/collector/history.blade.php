@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="mb-4">
-        <h1 class="text-xl font-bold text-slate-900">Riwayat Penjemputan</h1>
-        <p class="text-sm text-slate-500">Penjemputan yang sudah Anda selesaikan.</p>
+        <h1 class="text-xl font-bold text-on-surface">Riwayat Penjemputan</h1>
+        <p class="text-sm text-on-surface-variant">Penjemputan yang sudah Anda selesaikan.</p>
     </div>
 
     @if ($pickupRequests->isEmpty())
@@ -14,7 +14,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Resident</th>

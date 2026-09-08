@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="mb-4">
-        <h1 class="text-xl font-bold text-slate-900">Riwayat Poin</h1>
-        <p class="text-sm text-slate-500">Semua transaksi poin Anda di TemJi.</p>
+        <h1 class="text-xl font-bold text-on-surface">Riwayat Poin</h1>
+        <p class="text-sm text-on-surface-variant">Semua transaksi poin Anda di TemJi.</p>
     </div>
 
     @if ($pointHistories->isEmpty())
@@ -15,7 +15,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Deskripsi</th>

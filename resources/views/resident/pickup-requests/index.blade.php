@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex items-center justify-between">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Pengajuan Pengambilan Sampah</h1>
-            <p class="text-sm text-slate-500">Kelola pengajuan penjemputan sampah Anda.</p>
+            <h1 class="text-xl font-bold text-on-surface">Pengajuan Pengambilan Sampah</h1>
+            <p class="text-sm text-on-surface-variant">Kelola pengajuan penjemputan sampah Anda.</p>
         </div>
         <a href="{{ route('resident.pickup-requests.create') }}" class="btn btn-primary">＋ Ajukan Baru</a>
     </div>
@@ -18,12 +18,13 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Alamat</th>
                             <th>Kategori</th>
-                            <th>Tanggal</th>
+                            <th>Tanggal Penjemputan</th>
+                            <th>Slot Waktu</th>
                             <th>Status</th>
                             <th class="text-right">Aksi</th>
                         </tr>
@@ -40,8 +41,9 @@
                                         @endforeach
                                     </div>
                                 </td>
-                                <td>{{ $pickupRequest->created_at->format('d M Y H:i') }}</td>
-                                <td><x-status-badge :status="$pickupRequest->status" /></td>
+                                <td>{{ $pickupRequest->scheduled_at ? $pickupRequest->scheduled_at->format('d M Y') : $pickupRequest->created_at->format('d M Y') }}</td>
+                                <td>{{ $pickupRequest->timeSlotLabel() ?? '–' }}</td>
+                                <td><x-status-badge :status="$pickupRequest->status" :label="$pickupRequest->statusLabel()" /></td>
                                 <td class="text-right">
                                     <div class="flex justify-end gap-2">
                                         <a href="{{ route('resident.pickup-requests.show', $pickupRequest) }}" class="btn btn-secondary btn-sm">Detail</a>

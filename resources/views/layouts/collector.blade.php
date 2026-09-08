@@ -16,7 +16,7 @@
     <div class="min-h-screen lg:flex">
         <div class="sticky top-0 z-30 flex items-center justify-between border-b border-outline-variant/40 bg-surface-container-low px-4 py-3 lg:hidden">
             <a href="{{ route('collector.dashboard') }}" class="flex items-center gap-2 font-display font-black text-on-surface">
-                <span class="material-symbols-outlined text-primary">recycling</span> TemJi
+                <span class="material-symbols-outlined text-collector-600">recycling</span> TemJi
             </a>
             <button id="hamburger" class="inline-flex h-11 w-11 items-center justify-center rounded-lg" type="button" aria-label="Menu">
                 <span class="material-symbols-outlined">menu</span>
@@ -27,13 +27,13 @@
             <div class="flex h-full flex-col justify-between">
                 <div class="flex flex-col gap-6">
                     <div class="flex items-center gap-3 px-1">
-                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
+                        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-collector-600 text-white shadow-sm">
                             <span class="material-symbols-outlined text-xl">recycling</span>
                         </div>
                         <div class="flex flex-col">
                             <div class="flex items-center gap-2">
                                 <span class="font-display text-base font-bold tracking-tight">TemJi</span>
-                                <span class="rounded-full bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">Kolektor</span>
+                                <span class="rounded-full bg-collector-50 px-1.5 py-0.5 text-[10px] font-semibold text-collector-700">Kolektor</span>
                             </div>
                             <span class="text-xs text-on-surface-variant">Lapangan</span>
                         </div>
@@ -51,17 +51,17 @@
                         </div>
                     </div>
                     <nav class="flex flex-col gap-1 text-sm font-medium">
-                        <a href="{{ route('collector.dashboard') }}" class="sidebar-link {{ $current === 'collector.dashboard' ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('collector.dashboard') }}" class="sidebar-link {{ $current === 'collector.dashboard' ? 'sidebar-link-active-collector' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-lg">dashboard</span> Ringkasan
                         </a>
-                        <a href="{{ route('collector.pickup-requests.index') }}" class="sidebar-link {{ str_starts_with($current, 'collector.pickup-requests') ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('collector.pickup-requests.index') }}" class="sidebar-link {{ str_starts_with($current, 'collector.pickup-requests') ? 'sidebar-link-active-collector' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-lg">local_shipping</span>
                             <span class="flex-1">Penjemputan aktif</span>
                             @if ($queueCount)
-                                <span class="rounded-full {{ $current === 'collector.dashboard' || str_starts_with($current, 'collector.pickup-requests') ? 'bg-white/20' : 'bg-primary/10 text-primary' }} px-1.5 text-xs font-bold">{{ $queueCount }}</span>
+                                <span class="rounded-full {{ $current === 'collector.dashboard' || str_starts_with($current, 'collector.pickup-requests') ? 'bg-white/20' : 'bg-collector-50 text-collector-700' }} px-1.5 text-xs font-bold">{{ $queueCount }}</span>
                             @endif
                         </a>
-                        <a href="{{ route('collector.history') }}" class="sidebar-link {{ $current === 'collector.history' ? 'sidebar-link-active' : 'sidebar-link-inactive' }}">
+                        <a href="{{ route('collector.history') }}" class="sidebar-link {{ $current === 'collector.history' ? 'sidebar-link-active-collector' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-lg">receipt_long</span> Riwayat &amp; laporan
                         </a>
                     </nav>

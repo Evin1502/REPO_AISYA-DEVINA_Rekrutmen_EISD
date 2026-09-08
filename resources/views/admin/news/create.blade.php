@@ -8,7 +8,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h1 class="text-lg font-bold text-slate-900">Tulis Berita</h1>
+                <h1 class="text-lg font-bold text-on-surface">Tulis Berita</h1>
             </div>
             <div class="card-body">
                 <form method="POST" action="{{ route('admin.news.store') }}" enctype="multipart/form-data" class="space-y-5">

@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex items-center justify-between">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Kategori Sampah</h1>
-            <p class="text-sm text-slate-500">Kelola kategori sampah dan poin per kilogram.</p>
+            <h1 class="text-xl font-bold text-on-surface">Kategori Sampah</h1>
+            <p class="text-sm text-on-surface-variant">Kelola kategori sampah dan poin per kilogram.</p>
         </div>
         <a href="{{ route('admin.waste-categories.create') }}" class="btn btn-primary">＋ Tambah Kategori</a>
     </div>
@@ -18,7 +18,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>Nama</th>
                             <th>Deskripsi</th>

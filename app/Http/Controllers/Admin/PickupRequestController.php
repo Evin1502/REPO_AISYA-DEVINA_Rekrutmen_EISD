@@ -52,7 +52,7 @@ class PickupRequestController extends Controller
         $pickupRequest->update([
             'status' => 'approved',
             'collector_id' => $validated['collector_id'],
-            'scheduled_at' => $validated['scheduled_at'] ?? null,
+            'scheduled_at' => $validated['scheduled_at'] ?? $pickupRequest->scheduled_at,
         ]);
 
         return redirect()

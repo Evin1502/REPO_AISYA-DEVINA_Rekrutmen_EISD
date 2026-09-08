@@ -18,9 +18,16 @@ Implementasi konkretnya:
 | Fitur di TemJi | Kontribusi terhadap SDG |
 |---|---|
 | Kategori sampah dengan poin berbeda (semakin sulit didaur ulang, semakin tinggi poinnya) | Mendorong warga memilah sampah sejak dari rumah (SDG 12.5) |
-| Alur penjemputan terjadwal + pencatatan berat riil per kategori | Data pengelolaan sampah kota yang terlacak dan terukur (SDG 11.6) |
-| Sistem poin & reward | Insentif perilaku berkelanjutan jangka panjang, bukan sekali jalan |
+| Sistem poin & reward | Insentif perilaku berkelanjutan jangka panjang, bukan sekali jalan (SDG 12.5) |
+| Field `area` (wilayah) terstruktur pada tiap pengajuan + breakdown volume sampah per wilayah di dashboard admin | Data pengelolaan sampah **lintas wilayah kota** yang terlacak & bisa diagregasi (SDG 11.6) |
+| Metrik ketepatan waktu penjemputan (% selesai ≤ 60 menit dari jadwal) di dashboard admin | Mengukur keandalan operasional pengelolaan sampah kota, bukan cuma volumenya (SDG 11.6) |
 | Dashboard statistik (total kg terkumpul, jumlah warga & kolektor aktif) | Transparansi dampak kolektif ke komunitas |
+
+> **Catatan jujur soal skala:** cakupan wilayah saat ini masih berupa daftar tetap
+> (lihat `config/temji.php`) yang merepresentasikan level kelurahan/kecamatan dalam
+> satu kota, bukan multi-kota. Untuk skala yang lebih besar, `service_areas` di
+> config tinggal ditambah — arsitektur agregasinya (`Admin\DashboardController`)
+> sudah generik dan tidak perlu diubah.
 
 ## Tumpukan Teknologi
 

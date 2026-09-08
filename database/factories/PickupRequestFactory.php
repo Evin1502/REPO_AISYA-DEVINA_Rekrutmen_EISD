@@ -17,6 +17,7 @@ class PickupRequestFactory extends Factory
             'user_id' => User::factory(),
             'collector_id' => null,
             'address' => fake()->address(),
+            'area' => fake()->randomElement(config('temji.service_areas')),
             'status' => 'pending',
             'scheduled_at' => null,
             'total_weight' => null,

@@ -16,8 +16,8 @@
         <a href="{{ route('resident.rewards.index') }}" class="mb-4 inline-block text-sm font-semibold text-brand-600 hover:underline">&larr; Kembali ke Katalog Reward</a>
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div>
-                <h1 class="flex items-center gap-2 text-xl font-bold text-slate-900"><span>{{ $icon }}</span> {{ $title }}</h1>
-                <p class="text-sm text-slate-500">{{ $description }}</p>
+                <h1 class="flex items-center gap-2 text-xl font-bold text-on-surface"><span>{{ $icon }}</span> {{ $title }}</h1>
+                <p class="text-sm text-on-surface-variant">{{ $description }}</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <span class="inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700">
@@ -51,13 +51,13 @@
                         <div class="flex h-40 items-center justify-center bg-gradient-to-br from-brand-50 to-brand-100 text-5xl">🎁</div>
                     @endif
                     <div class="flex flex-1 flex-col p-5">
-                        <h3 class="text-lg font-bold text-slate-900">{{ $reward->name }}</h3>
-                        <p class="mt-1 flex-1 text-sm text-slate-500">{{ $reward->description }}</p>
+                        <h3 class="text-lg font-bold text-on-surface">{{ $reward->name }}</h3>
+                        <p class="mt-1 flex-1 text-sm text-on-surface-variant">{{ $reward->description }}</p>
                         <div class="mt-4 flex items-center justify-between">
                             <span class="inline-flex items-center gap-1 rounded-full bg-brand-50 px-3 py-1 text-sm font-bold text-brand-700">
                                 {{ $reward->points_required }} poin
                             </span>
-                            <span class="text-xs text-slate-500">
+                            <span class="text-xs text-on-surface-variant">
                                 @if ($isSaldo)
                                     Nilai: <b>{{ $reward->displayValue() }}</b>
                                 @else

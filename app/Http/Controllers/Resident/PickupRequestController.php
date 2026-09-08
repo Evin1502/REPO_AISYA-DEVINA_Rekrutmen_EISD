@@ -8,6 +8,7 @@ use App\Models\PickupRequest;
 use App\Models\WasteCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\View\View;
 
 class PickupRequestController extends Controller
@@ -29,8 +30,20 @@ class PickupRequestController extends Controller
     public function create(): View
     {
         $wasteCategories = WasteCategory::orderBy('name')->get();
+        $timeSlots = PickupRequest::timeSlots();
+        $availability = PickupRequest::availabilityMap();
+        $minDate = today()->toDateString();
+        $maxDate = today()->addDays(PickupRequest::SLOT_WINDOW_DAYS - 1)->toDateString();
+        $capacity = PickupRequest::MAX_REQUESTS_PER_SLOT;
 
-        return view('resident.pickup-requests.create', compact('wasteCategories'));
+        return view('resident.pickup-requests.create', compact(
+            'wasteCategories',
+            'timeSlots',
+            'availability',
+            'minDate',
+            'maxDate',
+            'capacity'
+        ));
     }
 
     /**
@@ -40,8 +53,14 @@ class PickupRequestController extends Controller
     {
         $validated = $request->validated();
 
+        $slot = PickupRequest::slotByKey($validated['time_slot']);
+        $scheduledAt = Carbon::parse($validated['pickup_date'].' '.$slot['start'].':00');
+
         $pickupRequest = $request->user()->pickupRequests()->create([
             'address' => $validated['address'],
+            'area' => $validated['area'],
+            'scheduled_at' => $scheduledAt,
+            'time_slot' => $validated['time_slot'],
             'notes' => $validated['notes'] ?? null,
             'status' => 'pending',
         ]);
@@ -57,7 +76,7 @@ class PickupRequestController extends Controller
 
         return redirect()
             ->route('resident.pickup-requests.show', $pickupRequest)
-            ->with('success', 'Pengajuan pengambilan sampah berhasil dikirim! Menunggu persetujuan Admin.');
+            ->with('success', 'Data berhasil diajukan. Pengajuan Pengambilan Sampah akan diproses oleh Admin.');
     }
 
     public function show(PickupRequest $pickupRequest): View

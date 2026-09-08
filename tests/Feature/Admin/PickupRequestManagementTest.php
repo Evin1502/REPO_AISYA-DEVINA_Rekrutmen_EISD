@@ -83,4 +83,19 @@ class PickupRequestManagementTest extends TestCase
 
         $response->assertViewHas('pickupRequests', fn ($paginator) => $paginator->total() === 1);
     }
+
+    public function test_pending_request_appears_in_admin_list(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $resident = User::factory()->resident()->create();
+        $pickupRequest = PickupRequest::factory()->pending()->create([
+            'user_id' => $resident->id,
+            'time_slot' => '10:00-12:00',
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.pickup-requests.index'))->assertOk();
+
+        $response->assertSee($resident->name);
+        $response->assertViewHas('pickupRequests', fn ($paginator) => $paginator->contains('id', $pickupRequest->id));
+    }
 }

@@ -1,0 +1,34 @@
+/*
+ * Material Symbols Outlined — SUBSET.
+ *
+ * File ini di-generate dari node_modules/material-symbols/material-symbols-outlined.woff2
+ * (paket resmi "material-symbols" di npm) menggunakan fonttools (pyftsubset),
+ * dipangkas supaya hanya berisi glyph/ligature untuk ikon yang benar-benar
+ * dipakai di seluruh Blade view project ini (lihat daftar di bawah).
+ *
+ * Ukuran turun dari ~3.79 MB -> ~2.75 MB (~27%). Substitusi ligature setiap
+ * nama ikon sudah diverifikasi (via harfbuzz shaping) tetap menghasilkan
+ * 1 glyph tunggal, persis seperti font aslinya -- jadi aman dipakai sebagai
+ * pengganti drop-in tanpa perlu ubah markup manapun.
+ *
+ * Ikon yang termasuk dalam subset ini (36 total):
+ * account_balance_wallet, add_circle, arrow_forward, calendar_today,
+ * campaign, check_circle, checklist, chevron_right, currency_exchange,
+ * dashboard, electric_rickshaw, flash_on, group, groups, history,
+ * inventory_2, local_shipping, location_on, logout, loyalty, map, menu,
+ * notifications, payments, people, person_add, play_arrow, print,
+ * receipt_long, recycling, redeem, scale, schedule, trending_up,
+ * verified, verified_user
+ *
+ * PENTING: kalau ada ikon BARU yang dipakai di Blade view dan namanya
+ * belum ada di daftar atas, generate ulang subset-nya (lihat
+ * docs/FONT_SUBSETTING.md) -- kalau tidak, ikon baru itu akan tampil
+ * sebagai teks mentah karena glyph-nya tidak ada di file ini.
+ */
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: block;
+    src: url('../fonts/material-symbols-outlined.woff2') format('woff2');
+}

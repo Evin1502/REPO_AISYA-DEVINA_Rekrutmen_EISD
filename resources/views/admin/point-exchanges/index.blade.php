@@ -5,8 +5,8 @@
 @section('content')
     <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h1 class="text-xl font-bold text-slate-900">Penukaran Poin</h1>
-            <p class="text-sm text-slate-500">Proses penukaran poin menjadi reward.</p>
+            <h1 class="text-xl font-bold text-on-surface">Penukaran Poin</h1>
+            <p class="text-sm text-on-surface-variant">Proses penukaran poin menjadi reward.</p>
         </div>
         <form method="GET" action="{{ route('admin.point-exchanges.index') }}" class="flex items-center gap-2">
             <select name="status" class="form-select w-auto" onchange="this.form.submit()">
@@ -24,7 +24,7 @@
         <div class="card overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="table w-full">
-                    <thead class="bg-slate-50">
+                    <thead class="bg-surface-container-low/80">
                         <tr>
                             <th>#</th>
                             <th>Resident</th>
@@ -64,7 +64,7 @@
                                             </form>
                                         </div>
                                     @else
-                                        <span class="text-xs text-slate-400">—</span>
+                                        <span class="text-xs text-outline">—</span>
                                     @endif
                                 </td>
                             </tr>

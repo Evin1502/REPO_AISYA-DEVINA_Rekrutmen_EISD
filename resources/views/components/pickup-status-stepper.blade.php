@@ -2,8 +2,8 @@
 
 @php
     $steps = [
-        'pending' => 'Diajukan',
-        'approved' => 'Disetujui',
+        'pending' => 'Menunggu Diproses',
+        'approved' => 'Ditugaskan',
         'scheduled' => 'Dijadwalkan',
         'collected' => 'Selesai',
     ];
@@ -34,7 +34,7 @@
                         class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-2
                         {{ $isDone ? 'bg-brand-600 text-white ring-brand-600' : '' }}
                         {{ $isActive ? 'bg-brand-100 text-brand-700 ring-brand-500' : '' }}
-                        {{ $isUpcoming ? 'bg-slate-100 text-slate-400 ring-slate-200' : '' }}"
+                        {{ $isUpcoming ? 'bg-surface-container text-outline ring-outline-variant' : '' }}"
                         aria-current="{{ $isActive ? 'step' : 'false' }}"
                     >
                         @if ($isDone)
@@ -46,10 +46,10 @@
                         @endif
                     </span>
                     @if (! $loop->last)
-                        <span class="mx-2 h-0.5 w-full {{ $isDone ? 'bg-brand-600' : 'bg-slate-200' }}" aria-hidden="true"></span>
+                        <span class="mx-2 h-0.5 w-full {{ $isDone ? 'bg-brand-600' : 'bg-surface-container-highest' }}" aria-hidden="true"></span>
                     @endif
                 </div>
-                <span class="mt-2 text-center text-xs font-medium {{ $isActive || $isDone ? 'text-slate-800' : 'text-slate-400' }}">
+                <span class="mt-2 text-center text-xs font-medium {{ $isActive || $isDone ? 'text-on-surface' : 'text-outline' }}">
                     {{ $label }}
                 </span>
             </li>

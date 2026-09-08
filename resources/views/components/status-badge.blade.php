@@ -1,4 +1,4 @@
-@props(['status'])
+@props(['status', 'label' => null])
 
 @php
     $map = [
@@ -11,7 +11,7 @@
         'redeem' => ['bg' => 'bg-red-100 text-red-800', 'dot' => 'bg-red-500'],
         'refund' => ['bg' => 'bg-indigo-100 text-indigo-800', 'dot' => 'bg-indigo-500'],
     ];
-    $style = $map[$status] ?? ['bg' => 'bg-slate-100 text-slate-800', 'dot' => 'bg-slate-500'];
+    $style = $map[$status] ?? ['bg' => 'bg-surface-container text-on-surface-variant', 'dot' => 'bg-outline'];
 @endphp
 
 {{--
@@ -22,5 +22,5 @@
 --}}
 <span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $style['bg']]) }}>
     <span class="h-1.5 w-1.5 rounded-full {{ $style['dot'] }}" aria-hidden="true"></span>
-    {{ ucfirst($status) }}
+    {{ $label ?? ucfirst($status) }}
 </span>
