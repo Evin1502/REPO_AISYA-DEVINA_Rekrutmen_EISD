@@ -7,20 +7,6 @@ use Illuminate\Database\Seeder;
 
 class RewardSeeder extends Seeder
 {
-    /**
-     * Katalog reward modul Point Reward (build ulang).
-     *
-     * Jenis reward utama: Saldo / Cash Balance (bukan pulsa), dengan jenjang
-     * bertingkat progresif dari Rp5.000 s.d. Rp100.000:
-     *
-     *   poin = (nominal / 5.000) * 10 + 10
-     *
-     * Contoh acuan: Rp5.000 = 20 poin, Rp10.000 = 30 poin, lalu naik 10 poin
-     * per Rp5.000 hingga Rp100.000 = 210 poin.
-     *
-     * Dilengkapi 3 pilihan barang fisik. Penukaran bersifat simulasi/pencatatan
-     * database (belum terintegrasi payment gateway / e-wallet otomatis).
-     */
     public function run(): void
     {
         $rewards = collect($this->saldoTiers())
@@ -35,9 +21,6 @@ class RewardSeeder extends Seeder
         }
     }
 
-    /**
-     * Jenjang saldo bertingkat: mulai Rp5.000 sampai Rp100.000, +Rp5.000 per tier.
-     */
     private function saldoTiers(): array
     {
         $tiers = [];
@@ -61,10 +44,6 @@ class RewardSeeder extends Seeder
         return $tiers;
     }
 
-    /**
-     * 3 pilihan barang fisik beserta estimasi poin seimbang dengan skala saldo
-     * (kurs ±Rp300 per poin, memperhitungkan biaya pengadaan & logistik).
-     */
     private function barang(): array
     {
         return [

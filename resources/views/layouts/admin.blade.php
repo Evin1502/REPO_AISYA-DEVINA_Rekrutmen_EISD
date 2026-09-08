@@ -6,7 +6,7 @@
     <title>@yield('title', 'Admin - TemJi')</title>
     @include('layouts.partials.head-assets')
 </head>
-<body class="bg-surface font-sans text-on-surface">
+<body class="bg-surface font-sans text-slate-900">
     @php
         $current = request()->route()?->getName();
         $user = auth()->user();
@@ -15,31 +15,31 @@
     @endphp
 
     <div class="min-h-screen lg:flex">
-        <div class="sticky top-0 z-30 flex items-center justify-between border-b border-outline-variant/40 bg-surface-container-low px-4 py-3 lg:hidden">
+        <div class="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 bg-white px-4 py-3 lg:hidden">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2 font-display font-black text-admin-600">
                 <span class="material-symbols-outlined">recycling</span> TemJi
             </a>
-            <button id="hamburger" class="inline-flex h-11 w-11 items-center justify-center rounded-lg" type="button" aria-label="Menu">
+            <button id="hamburger" class="inline-flex h-10 w-10 items-center justify-center rounded-xl hover:bg-slate-100" type="button" aria-label="Menu">
                 <span class="material-symbols-outlined">menu</span>
             </button>
         </div>
 
         <aside id="sidebar" class="shell-sidebar">
             <div class="flex h-full flex-col justify-between">
-                <div class="flex flex-col gap-4">
-                    <div class="flex items-center gap-2 px-1">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-admin-600 text-white shadow-sm">
+                <div class="flex flex-col gap-5">
+                    <div class="flex items-center gap-3 px-1">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-admin-600 text-white shadow-sm shadow-admin-600/20">
                             <span class="material-symbols-outlined">recycling</span>
                         </div>
                         <div>
                             <div class="flex items-center gap-1.5">
-                                <span class="font-display text-base font-bold tracking-tight text-admin-600">TemJi</span>
-                                <span class="rounded bg-admin-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-admin-700">Admin</span>
+                                <span class="font-display text-base font-bold tracking-tight text-slate-900">TemJi</span>
+                                <span class="rounded-full bg-admin-50 border border-admin-200 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-admin-700">Admin</span>
                             </div>
-                            <p class="text-[11px] font-medium text-on-surface-variant">Hub pengelola</p>
+                            <p class="text-[11px] font-medium text-slate-500">Hub Pengelola</p>
                         </div>
                     </div>
-                    <nav class="mt-1 flex flex-col gap-1">
+                    <nav class="mt-1 flex flex-col gap-1.5">
                         <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ $current === 'admin.dashboard' ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
                             <span class="material-symbols-outlined text-[20px]">dashboard</span> Ringkasan
                         </a>
@@ -47,7 +47,7 @@
                             <span class="material-symbols-outlined text-[20px]">local_shipping</span>
                             <span class="flex-1">Penjemputan</span>
                             @if ($pendingPickups)
-                                <span class="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-800">{{ $pendingPickups }}</span>
+                                <span class="rounded-full {{ str_starts_with($current, 'admin.pickup-requests') ? 'bg-white/20 text-white' : 'bg-amber-100 text-amber-800' }} px-2 py-0.5 text-[11px] font-bold">{{ $pendingPickups }}</span>
                             @endif
                         </a>
                         <a href="{{ route('admin.waste-categories.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.waste-categories') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
@@ -63,7 +63,7 @@
                             <span class="material-symbols-outlined text-[20px]">account_balance_wallet</span>
                             <span class="flex-1">Rekonsiliasi poin</span>
                             @if ($pendingExchanges)
-                                <span class="rounded-full bg-admin-50 px-2 py-0.5 text-[11px] font-bold text-admin-700">{{ $pendingExchanges }}</span>
+                                <span class="rounded-full {{ str_starts_with($current, 'admin.point-exchanges') ? 'bg-white/20 text-white' : 'bg-admin-100 text-admin-800' }} px-2 py-0.5 text-[11px] font-bold">{{ $pendingExchanges }}</span>
                             @endif
                         </a>
                         <a href="{{ route('admin.news.index') }}" class="sidebar-link {{ str_starts_with($current, 'admin.news') ? 'sidebar-link-active-admin' : 'sidebar-link-inactive' }}">
@@ -71,16 +71,16 @@
                         </a>
                     </nav>
                 </div>
-                <div class="border-t border-outline-variant/40 pt-3">
-                    <div class="mb-3 flex items-center justify-between rounded-md bg-surface-container px-3 py-1.5 text-[11px]">
-                        <div class="flex items-center gap-1.5">
+                <div class="border-t border-slate-100 pt-3">
+                    <div class="mb-3 flex items-center justify-between rounded-xl bg-admin-50/70 border border-admin-100 px-3 py-2 text-[11px]">
+                        <div class="flex items-center gap-2">
                             <span class="h-2 w-2 animate-pulse rounded-full bg-admin-600"></span>
-                            <span class="font-medium text-on-surface-variant">Sistem aktif</span>
+                            <span class="font-bold text-admin-900">Sistem aktif</span>
                         </div>
                     </div>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-                        <button type="submit" class="sidebar-link sidebar-link-inactive w-full">
+                        <button type="submit" class="sidebar-link sidebar-link-inactive w-full text-slate-600 hover:text-red-600">
                             <span class="material-symbols-outlined text-[20px]">logout</span> Keluar
                         </button>
                     </form>
@@ -88,18 +88,18 @@
             </div>
         </aside>
 
-        <div id="overlay" class="fixed inset-0 z-30 hidden bg-forest/45 backdrop-blur-[2px] lg:hidden"></div>
+        <div id="overlay" class="fixed inset-0 z-30 hidden bg-slate-900/40 opacity-0 backdrop-blur-[2px] transition-opacity duration-200 lg:hidden"></div>
 
         <div class="min-w-0 flex-1">
-            <header class="sticky top-0 z-20 hidden h-16 items-center justify-between border-b border-outline-variant/40 bg-surface-container-lowest/90 px-4 shadow-sm backdrop-blur-md lg:flex lg:px-8">
+            <header class="sticky top-0 z-20 hidden h-16 items-center justify-between border-b border-slate-200/80 bg-white/90 px-4 shadow-2xs backdrop-blur-md lg:flex lg:px-8">
                 <div>
-                    <h1 class="font-display text-lg font-bold">@yield('title', 'Admin')</h1>
+                    <h1 class="font-display text-lg font-bold text-slate-900">@yield('title', 'Admin')</h1>
                 </div>
                 <div class="flex items-center gap-3">
                     <x-user-initials :name="$user->name" />
                     <div class="text-left">
-                        <p class="text-xs font-semibold leading-tight">{{ $user->name }}</p>
-                        <p class="text-[11px] text-on-surface-variant">Admin operasional</p>
+                        <p class="text-xs font-bold leading-tight text-slate-800">{{ $user->name }}</p>
+                        <p class="text-[11px] font-semibold text-admin-600">Admin Operasional</p>
                     </div>
                 </div>
             </header>
@@ -110,6 +110,8 @@
             </main>
         </div>
     </div>
+
+    <x-confirm-modal />
 
     @include('layouts.partials.sidebar-toggle')
     @stack('scripts')

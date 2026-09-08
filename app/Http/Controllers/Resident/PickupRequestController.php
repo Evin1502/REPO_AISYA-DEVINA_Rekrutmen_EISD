@@ -13,9 +13,6 @@ use Illuminate\View\View;
 
 class PickupRequestController extends Controller
 {
-    /**
-     * Use case: "Mengajukan pengambilan sampah" (Resident) - daftar pengajuan milik sendiri.
-     */
     public function index(Request $request): View
     {
         $pickupRequests = $request->user()
@@ -46,9 +43,6 @@ class PickupRequestController extends Controller
         ));
     }
 
-    /**
-     * Use case: "Mengajukan pengambilan sampah" <<Include>> "Memilih kategori sampah".
-     */
     public function store(StorePickupRequestRequest $request): RedirectResponse
     {
         $validated = $request->validated();
@@ -58,7 +52,7 @@ class PickupRequestController extends Controller
 
         $pickupRequest = $request->user()->pickupRequests()->create([
             'address' => $validated['address'],
-            'area' => $validated['area'],
+            'area' => $validated['area'] ?? null,
             'scheduled_at' => $scheduledAt,
             'time_slot' => $validated['time_slot'],
             'notes' => $validated['notes'] ?? null,
@@ -88,9 +82,6 @@ class PickupRequestController extends Controller
         return view('resident.pickup-requests.show', compact('pickupRequest'));
     }
 
-    /**
-     * Resident hanya boleh membatalkan pengajuan yang masih berstatus 'pending'.
-     */
     public function destroy(PickupRequest $pickupRequest): RedirectResponse
     {
         $this->authorize('delete', $pickupRequest);

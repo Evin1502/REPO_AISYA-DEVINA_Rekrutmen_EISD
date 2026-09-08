@@ -9,10 +9,6 @@ use Illuminate\View\View;
 
 class RewardController extends Controller
 {
-    /**
-     * Use case: "Melakukan penukaran poin" (Resident) - landing katalog reward
-     * dengan pintu masuk terpisah untuk Saldo / Cash Balance dan Barang.
-     */
     public function index(Request $request): View
     {
         return view('resident.rewards.index', [
@@ -22,17 +18,11 @@ class RewardController extends Controller
         ]);
     }
 
-    /**
-     * Halaman penukaran khusus Saldo / Cash Balance.
-     */
     public function saldo(Request $request): View
     {
         return $this->categoryPage($request, Reward::CATEGORY_SALDO);
     }
 
-    /**
-     * Halaman penukaran khusus Barang - hanya 3 item produk pilihan.
-     */
     public function barang(Request $request): View
     {
         $rewards = $this->barangRewards()->take(3)->get();
@@ -58,9 +48,6 @@ class RewardController extends Controller
         ]);
     }
 
-    /**
-     * Query dasar 3 item produk (barang) yang tersedia.
-     */
     private function barangRewards()
     {
         return Reward::where('category', Reward::CATEGORY_BARANG)

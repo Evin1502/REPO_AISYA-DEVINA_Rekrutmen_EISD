@@ -10,9 +10,6 @@ use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
-    /**
-     * Use case: "Menerima notifikasi atau berita terbaru" (Resident).
-     */
     public function index(Request $request): View
     {
         $notifications = $request->user()

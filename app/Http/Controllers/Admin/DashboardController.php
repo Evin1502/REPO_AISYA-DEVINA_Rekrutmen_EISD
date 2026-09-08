@@ -11,12 +11,6 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    /**
-     * Toleransi keterlambatan (menit) sebelum sebuah penjemputan dihitung
-     * "tidak tepat waktu". scheduled_at diisi Admin/Collector sebagai janji
-     * jadwal; updated_at otomatis ter-update Laravel saat status berubah
-     * jadi 'collected', jadi dipakai sebagai proksi waktu selesai riil.
-     */
     private const ON_TIME_TOLERANCE_MINUTES = 60;
 
     public function index(): View
@@ -54,16 +48,6 @@ class DashboardController extends Controller
         return view('admin.dashboard', compact('stats', 'recentPickupRequests', 'areaBreakdown'));
     }
 
-    /**
-     * Persentase penjemputan yang selesai (collected) pada atau sebelum
-     * scheduled_at + toleransi. Ini metrik "pengelolaan sampah kota yang
-     * terlacak" (SDG 11.6) -- bukan cuma jumlah kg, tapi seberapa andal
-     * jadwal penjemputan ditepati di skala operasional.
-     *
-     * null dikembalikan kalau belum ada data yang bisa dihitung (belum
-     * ada penjemputan collected dengan scheduled_at terisi), supaya view
-     * bisa tampilkan "Belum ada data" alih-alih angka 0% yang menyesatkan.
-     */
     private function calculateOnTimeRate(): ?float
     {
         $collectedWithSchedule = PickupRequest::where('status', 'collected')

@@ -10,12 +10,6 @@ class PickupRequest extends Model
 {
     use HasFactory;
 
-    /**
-     * Slot waktu penjemputan ditentukan sistem (bukan input bebas Resident).
-     * Setiap slot memiliki key (disimpan di DB), label, jam mulai & jam selesai.
-     *
-     * @var array<int, array{key: string, label: string, start: string, end: string}>
-     */
     public const TIME_SLOTS = [
         ['key' => '08:00-10:00', 'label' => '08.00 – 10.00', 'start' => '08:00', 'end' => '10:00'],
         ['key' => '10:00-12:00', 'label' => '10.00 – 12.00', 'start' => '10:00', 'end' => '12:00'],
@@ -23,11 +17,6 @@ class PickupRequest extends Model
         ['key' => '15:00-17:00', 'label' => '15.00 – 17.00', 'start' => '15:00', 'end' => '17:00'],
     ];
 
-    /**
-     * Label status yang konsisten di seluruh role.
-     * Store tetap memakai enum singkat (pending/approved/scheduled/collected/rejected),
-     * sedangkan tampilan memakai label ini supaya seragam untuk Resident, Admin, Collector.
-     */
     public const STATUS_LABELS = [
         'pending' => 'Menunggu Diproses',
         'approved' => 'Ditugaskan',
@@ -36,13 +25,10 @@ class PickupRequest extends Model
         'rejected' => 'Ditolak',
     ];
 
-    /** Jumlah maksimum pengajuan aktif per slot waktu. */
     public const MAX_REQUESTS_PER_SLOT = 3;
 
-    /** Batas hari ke depan yang bisa dipilih Resident (dan dihitung ketersediaannya). */
     public const SLOT_WINDOW_DAYS = 30;
 
-    /** Status yang masih "menempati" slot (belum selesai / belum dibatalkan). */
     public const ACTIVE_STATUSES = ['pending', 'approved', 'scheduled'];
 
     protected $fillable = [
@@ -65,10 +51,6 @@ class PickupRequest extends Model
         ];
     }
 
-    /* ---------------------------------------------------------------
-     |  Helper Status
-     |---------------------------------------------------------------*/
-
     public function statusLabel(): string
     {
         return self::STATUS_LABELS[$this->status] ?? ucfirst((string) $this->status);
@@ -82,10 +64,6 @@ class PickupRequest extends Model
 
         return self::slotByKey($this->time_slot)['label'] ?? $this->time_slot;
     }
-
-    /* ---------------------------------------------------------------
-     |  Helper Slot Waktu
-     |---------------------------------------------------------------*/
 
     public static function timeSlots(): array
     {
@@ -103,11 +81,6 @@ class PickupRequest extends Model
         return null;
     }
 
-    /**
-     * Peta ketersediaan slot untuk jendela N hari ke depan:
-     * ["Y-m-d" => ["08:00-10:00" => true, ...]].
-     * Dipakai form Resident untuk men-disable slot yang penuh / sudah lewat.
-     */
     public static function availabilityMap(int $days = self::SLOT_WINDOW_DAYS): array
     {
         $start = today();
@@ -136,10 +109,6 @@ class PickupRequest extends Model
         return $map;
     }
 
-    /**
-     * Cek server-side bahwa slot pada tanggal tertentu masih bisa dipilih
-     * (tidak penuh dan belum lewat). Dipanggil ulang saat submit.
-     */
     public static function isSlotAvailable(string $date, string $slotKey): bool
     {
         $slot = self::slotByKey($slotKey);
@@ -164,17 +133,11 @@ class PickupRequest extends Model
         return $booked < self::MAX_REQUESTS_PER_SLOT;
     }
 
-    /* ---------------------------------------------------------------
-     |  Relasi 1-to-Many (inverse: belongsTo)
-     |---------------------------------------------------------------*/
-
-    /** Resident pemilik pengajuan. */
     public function resident()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /** Collector yang ditugaskan (nullable). */
     public function collector()
     {
         return $this->belongsTo(User::class, 'collector_id');
@@ -185,9 +148,6 @@ class PickupRequest extends Model
         return $this->hasMany(PointHistory::class);
     }
 
-    /* ---------------------------------------------------------------
-     |  Relasi Many-to-Many (WAJIB) - "Memilih kategori sampah"
-     |---------------------------------------------------------------*/
     public function wasteCategories()
     {
         return $this->belongsToMany(

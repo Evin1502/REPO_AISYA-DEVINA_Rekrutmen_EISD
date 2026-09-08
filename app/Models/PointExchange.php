@@ -72,9 +72,6 @@ class PointExchange extends Model
         return $this->isSaldo() ? 'Saldo / Cash Balance' : 'Barang';
     }
 
-    /**
-     * Nilai rupiah yang ditampilkan; untuk barang kembalikan nama reward.
-     */
     public function displayValue(): string
     {
         if ($this->isSaldo()) {

@@ -8,19 +8,6 @@ use App\Models\Reward;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Business Logic modul Point Reward.
- *
- * Alur yang dibakukan:
- *  1. Redeem — validasi kecukupan poin & stok, potong poin + stok,
- *     simpan transaksi (Redemption History Log) + mutasi PointHistory(type=redeem).
- *     Reward tipe SALDO langsung disetujui otomatis dan cash_balance dikredit
- *     seketika (tanpa persetujuan admin). Reward tipe BARANG tetap 'pending'.
- *  2. Approve — hanya status pending (barang); ubah status; jika reward saldo,
- *     kredit cash_balance pengguna (simulasi, tanpa payment gateway).
- *  3. Reject  — hanya status pending (barang); kembalikan (refund) poin,
- *     pulihkan stok, catat PointHistory(type=refund).
- */
 class PointRewardService
 {
     public function redeem(User $user, Reward $reward): PointExchange
@@ -37,8 +24,6 @@ class PointRewardService
             $user->decrement('points', $reward->points_required);
             $reward->decrement('stock');
 
-            // Saldo otomatis langsung 'approved' + kredit cash_balance tanpa persetujuan admin.
-            // Barang tetap 'pending' menunggu proses Admin.
             $isSaldo = $reward->isSaldo();
 
             $exchange = $user->pointExchanges()->create([
@@ -64,10 +49,6 @@ class PointRewardService
         });
     }
 
-    /**
-     * Poin & stok sudah dipotong saat resident menukar, jadi approve hanya
-     * mengubah status. Untuk reward saldo, kredit cash_balance pengguna.
-     */
     public function approve(PointExchange $exchange): void
     {
         if (! $exchange->isPending()) {
@@ -83,10 +64,6 @@ class PointRewardService
         });
     }
 
-    /**
-     * Kembalikan (refund) poin ke resident dan pulihkan stok reward,
-     * lalu catat PointHistory(type=refund) dalam satu transaksi DB.
-     */
     public function reject(PointExchange $exchange): void
     {
         if (! $exchange->isPending()) {

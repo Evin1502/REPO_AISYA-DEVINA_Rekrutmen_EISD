@@ -17,7 +17,7 @@
                     </x-alert>
                 @endif
 
-                <form method="POST" action="{{ route('resident.pickup-requests.store') }}" class="space-y-5">
+                <form method="POST" action="{{ route('resident.pickup-requests.store') }}" class="space-y-5" data-confirm="Apakah Anda yakin ingin mengirim pengajuan penjemputan sampah ini?" data-confirm-title="Kirim Pengajuan Sampah" data-confirm-btn="Ya, Kirim Sekarang" data-confirm-type="primary" data-confirm-icon="send">
                     @csrf
 
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -64,30 +64,9 @@
                     </div>
 
                     <div>
-                        <label for="area" class="form-label">Wilayah</label>
-                        <select id="area" name="area" required class="form-control @error('area') input-error @enderror">
-                            <option value="">Pilih wilayah...</option>
-                            @foreach (config('temji.service_areas') as $area)
-                                <option value="{{ $area }}" @selected(old('area') === $area)>{{ $area }}</option>
-                            @endforeach
-                        </select>
-                        <p class="form-text">Dipakai admin untuk memantau cakupan & volume sampah per wilayah kota.</p>
-                        @error('area')
-                            <div class="form-error">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div>
                         <label class="form-label">Kategori Sampah & Perkiraan Berat (kg)</label>
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
                             @foreach ($wasteCategories as $category)
-                                {{--
-                                    Guideline "Touch & Interaction" (ui-ux-pro-max): target sentuh
-                                    minimal 44x44px. Seluruh kartu dibungkus <label> supaya area
-                                    klik jauh lebih besar dari checkbox 16x16px doang, dan state
-                                    "dipilih" ditandai visual (border + background), bukan cuma
-                                    checkbox-nya yang kecentang.
-                                --}}
                                 <label for="cat-{{ $category->id }}"
                                        class="flex cursor-pointer items-start gap-2 rounded-lg border border-outline-variant p-3 transition-colors has-checked:border-brand-500 has-checked:bg-brand-50">
                                     <input type="checkbox" name="categories[]" value="{{ $category->id }}"
@@ -186,8 +165,6 @@
             }
             refreshSlots();
 
-            // Guideline "Submit Feedback" (ui-ux-pro-max, domain: ux):
-            // beri feedback loading & cegah submit ganda saat tombol diklik.
             const form = document.querySelector('form[action="{{ route('resident.pickup-requests.store') }}"]');
             const submitBtn = form?.querySelector('button[type="submit"]');
 

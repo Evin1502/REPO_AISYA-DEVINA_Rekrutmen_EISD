@@ -14,13 +14,7 @@
     $style = $map[$status] ?? ['bg' => 'bg-surface-container text-on-surface-variant', 'dot' => 'bg-outline'];
 @endphp
 
-{{--
-    Guideline "Color Only" (ui-ux-pro-max, domain: ux):
-    status tidak boleh disampaikan lewat warna doang. Teks label sudah ada
-    sejak awal (aman), ditambah dot penanda biar makin cepat di-scan mata
-    tanpa harus baca teksnya dulu.
---}}
-<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ' . $style['bg']]) }}>
-    <span class="h-1.5 w-1.5 rounded-full {{ $style['dot'] }}" aria-hidden="true"></span>
+<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold shadow-sm ring-1 ring-inset ring-black/5 ' . $style['bg']]) }}>
+    <span class="h-1.5 w-1.5 rounded-full {{ $style['dot'] }} {{ $status === 'pending' ? 'animate-pulse' : '' }}" aria-hidden="true"></span>
     {{ $label ?? ucfirst($status) }}
 </span>

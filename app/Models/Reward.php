@@ -50,10 +50,6 @@ class Reward extends Model
         return $this->isSaldo() ? 'Saldo / Cash Balance' : 'Barang';
     }
 
-    /**
-     * Label nominal/barang yang cocok dipakai sebagai snapshot
-     * (mis. di PointExchange) atau ditampilkan di UI.
-     */
     public function displayValue(): string
     {
         if ($this->isSaldo()) {

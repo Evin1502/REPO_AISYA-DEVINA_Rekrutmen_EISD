@@ -8,9 +8,6 @@ use Illuminate\View\View;
 
 class PointHistoryController extends Controller
 {
-    /**
-     * Use case: "Melihat riwayat poin" (Resident).
-     */
     public function index(Request $request): View
     {
         $pointHistories = $request->user()

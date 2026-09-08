@@ -14,9 +14,6 @@ class PointExchangeController extends Controller
 {
     public function __construct(private readonly PointRewardService $pointRewardService) {}
 
-    /**
-     * Use case: "Melihat riwayat penukaran poin" (Resident).
-     */
     public function index(Request $request): View
     {
         $pointExchanges = $request->user()
@@ -28,16 +25,6 @@ class PointExchangeController extends Controller
         return view('resident.point-exchanges.index', compact('pointExchanges'));
     }
 
-    /**
-     * Use case: "Melakukan penukaran poin" (Resident) <<Include>> "Mengelola penukaran poin" (Admin).
-     *
-     * Alur bisnis (lihat PointRewardService@redeem):
-     *  1. Validasi kecukupan poin & stok reward.
-     *  2. Potong poin & stok, catat transaksi (Redemption History Log) + mutasi
-     *     PointHistory(type=redeem).
-     *  3. Reward SALDO otomatis disetujui & cash_balance langsung dikredit.
-     *     Reward BARANG berstatus pending menunggu Admin approve/reject.
-     */
     public function store(Request $request, Reward $reward): RedirectResponse
     {
         try {

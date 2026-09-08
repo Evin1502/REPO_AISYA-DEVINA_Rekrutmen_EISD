@@ -18,7 +18,7 @@ class PickupRequestController extends Controller
         $pickupRequests = $request->user()
             ->assignedPickups()
             ->with(['resident', 'wasteCategories'])
-            ->whereIn('status', ['approved', 'scheduled']) // 'scheduled' dipertahankan untuk data lama, alur baru tidak lagi memproduksinya
+            ->whereIn('status', ['approved', 'scheduled'])
             ->latest()
             ->paginate(10);
 
@@ -34,14 +34,6 @@ class PickupRequestController extends Controller
         return view('collector.pickup-requests.show', compact('pickupRequest'));
     }
 
-    /**
-     * Collector menyelesaikan penjemputan: approved → collected.
-     *
-     * Jadwal (scheduled_at & time_slot) SUDAH ditentukan Resident sejak
-     * mengajukan permintaan (lihat Resident\PickupRequestController::store),
-     * jadi Collector tidak perlu diminta set ulang jadwal -- cukup input
-     * berat riil begitu barang sudah ditimbang di lapangan.
-     */
     public function updateStatus(UpdatePickupRequest $request, PickupRequest $pickupRequest): RedirectResponse
     {
         $this->authorize('updateStatus', $pickupRequest);
@@ -94,9 +86,6 @@ class PickupRequestController extends Controller
             ->with('success', 'Penjemputan selesai. Poin sudah ditambahkan ke saldo resident.');
     }
 
-    /**
-     * History: pengajuan yang sudah di-collect oleh collector ini.
-     */
     public function history(Request $request): View
     {
         $pickupRequests = $request->user()

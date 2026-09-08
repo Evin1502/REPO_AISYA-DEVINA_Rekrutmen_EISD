@@ -12,7 +12,6 @@ class AdminSeeder extends Seeder
         User::create([
             'name' => 'Admin TemJi',
             'email' => 'admin@temji.test',
-            // Otomatis di-hash oleh cast 'hashed' pada Model User.
             'password' => 'admin12345',
             'role' => 'admin',
             'email_verified_at' => now(),

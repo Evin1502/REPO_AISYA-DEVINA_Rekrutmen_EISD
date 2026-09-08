@@ -23,7 +23,7 @@ class StorePickupRequestRequest extends FormRequest
             'pickup_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:today', 'before_or_equal:'.$maxDate],
             'time_slot' => ['required', 'in:'.$slotKeys],
             'address' => ['required', 'string', 'max:255'],
-            'area' => ['required', 'string', Rule::in(config('temji.service_areas'))],
+            'area' => ['nullable', 'string'],
             'notes' => ['nullable', 'string', 'max:1000'],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['exists:waste_categories,id'],

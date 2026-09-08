@@ -36,9 +36,6 @@ class User extends Authenticatable
         ];
     }
 
-    /* ---------------------------------------------------------------
-     |  Role helper (dipakai di Blade & Middleware)
-     |---------------------------------------------------------------*/
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
@@ -54,26 +51,16 @@ class User extends Authenticatable
         return $this->role === 'collector';
     }
 
-    /* ---------------------------------------------------------------
-     |  Saldo / Cash Balance helper (hasil penukaran poin kategori saldo)
-     |---------------------------------------------------------------*/
-
     public function cashBalanceLabel(): string
     {
         return 'Rp'.number_format((float) $this->cash_balance, 0, ',', '.');
     }
 
-    /* ---------------------------------------------------------------
-     |  Relasi 1-to-Many
-     |---------------------------------------------------------------*/
-
-    /** Sebagai Resident: pengajuan yang dia buat sendiri. */
     public function pickupRequests()
     {
         return $this->hasMany(PickupRequest::class, 'user_id');
     }
 
-    /** Sebagai Collector: pengajuan yang ditugaskan ke dia. */
     public function assignedPickups()
     {
         return $this->hasMany(PickupRequest::class, 'collector_id');
@@ -89,7 +76,6 @@ class User extends Authenticatable
         return $this->hasMany(PointExchange::class);
     }
 
-    /** Sebagai Admin: berita yang dia tulis. */
     public function news()
     {
         return $this->hasMany(News::class, 'author_id');

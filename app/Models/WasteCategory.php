@@ -15,10 +15,6 @@ class WasteCategory extends Model
         'points_per_kg',
     ];
 
-    /**
-     * Relasi Many-to-Many (WAJIB) via pivot pickup_request_waste_category.
-     * withPivot() dipakai supaya kolom tambahan pivot bisa diakses.
-     */
     public function pickupRequests()
     {
         return $this->belongsToMany(

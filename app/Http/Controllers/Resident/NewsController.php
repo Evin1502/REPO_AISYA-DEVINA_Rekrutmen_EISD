@@ -8,9 +8,6 @@ use Illuminate\View\View;
 
 class NewsController extends Controller
 {
-    /**
-     * Use case: "Melihat info berita terbaru" (Resident).
-     */
     public function index(): View
     {
         $newsList = News::with('author')->latest()->paginate(6);

@@ -1,16 +1,7 @@
 @if (session('success'))
-    <x-alert type="success">{{ session('success') }}</x-alert>
+    <div class="animate-fade-in">
+        <x-alert type="success">{{ session('success') }}</x-alert>
+    </div>
 @endif
-@if (session('error'))
-    <x-alert type="error">{{ session('error') }}</x-alert>
-@endif
-@if ($errors->any())
-    <x-alert type="error">
-        <strong>Terjadi kesalahan input:</strong>
-        <ul class="mt-1 list-disc pl-4">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </x-alert>
-@endif
+
+<x-error-modal />
