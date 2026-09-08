@@ -72,30 +72,12 @@
                 </div>
 
                 @if ($pickupRequest->status === 'approved')
-                    <div class="mt-6 rounded-lg bg-amber-50 p-5 ring-1 ring-amber-200">
-                        <h3 class="mb-1 text-sm font-bold text-amber-800">Langkah 1: Jadwalkan Pengambilan</h3>
-                        <p class="mb-3 text-xs text-amber-700">Tentukan jadwal penjemputan, lalu tandai status menjadi "Dijadwalkan".</p>
-                        <form method="POST" action="{{ route('collector.pickup-requests.status', $pickupRequest) }}" class="flex flex-wrap items-end gap-3">
-                            @csrf
-                            @method('PATCH')
-                            <div class="flex-1">
-                                <label for="scheduled_at" class="form-label text-amber-900">Jadwal Pengambilan</label>
-                                <input type="datetime-local" id="scheduled_at" name="scheduled_at"
-                                       class="form-control @error('scheduled_at') input-error @enderror"
-                                       value="{{ old('scheduled_at') }}">
-                                @error('scheduled_at')
-                                    <div class="form-error">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn btn-primary">Tandai Dijadwalkan</button>
-                        </form>
-                    </div>
-                @endif
-
-                @if ($pickupRequest->status === 'scheduled')
                     <div class="mt-6 rounded-lg bg-green-50 p-5 ring-1 ring-green-200">
-                        <h3 class="mb-1 text-sm font-bold text-green-800">Langkah 2: Input Berat Riil</h3>
-                        <p class="mb-3 text-xs text-green-700">Masukkan berat riil tiap kategori. Poin dihitung otomatis dari berat riil x poin/kg lalu ditambahkan ke saldo resident.</p>
+                        <h3 class="mb-1 text-sm font-bold text-green-800">Selesaikan Penjemputan</h3>
+                        <p class="mb-3 text-xs text-green-700">
+                            Jadwal sudah ditentukan warga saat mengajukan{{ $pickupRequest->scheduled_at ? ' (' . $pickupRequest->scheduled_at->format('d M Y H:i') . ($pickupRequest->timeSlotLabel() ? ', slot ' . $pickupRequest->timeSlotLabel() : '') . ')' : '' }}.
+                            Masukkan berat riil tiap kategori setelah barang ditimbang. Poin dihitung otomatis dari berat riil x poin/kg lalu ditambahkan ke saldo resident.
+                        </p>
                         <form method="POST" action="{{ route('collector.pickup-requests.status', $pickupRequest) }}" class="space-y-4"
                               onsubmit="return confirm('Selesaikan penjemputan dan hitung poin?')">
                             @csrf
@@ -110,6 +92,7 @@
                                         <input type="number" step="0.1" min="0" id="weight-{{ $category->id }}"
                                                name="actual_weight[{{ $category->id }}]"
                                                placeholder="Berat riil (kg)"
+                                               required
                                                class="weight-input mt-2 form-control @error('actual_weight.' . $category->id) input-error @enderror">
                                         @error('actual_weight.' . $category->id)
                                             <div class="form-error">{{ $message }}</div>

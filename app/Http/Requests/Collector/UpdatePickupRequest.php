@@ -19,15 +19,16 @@ class UpdatePickupRequest extends FormRequest
     }
 
     /**
-     * Rules are intentionally loose — status transitions (approved→scheduled→collected)
-     * are validated in the controller within a DB transaction.
+     * scheduled_at TIDAK divalidasi di sini karena Collector tidak lagi
+     * menginput jadwal -- itu sudah ditentukan Resident sejak pengajuan
+     * dibuat. Satu-satunya aksi Collector adalah menyelesaikan penjemputan
+     * dengan berat riil.
      */
     public function rules(): array
     {
         return [
-            'scheduled_at' => ['nullable', 'date'],
-            'actual_weight' => ['nullable', 'array'],
-            'actual_weight.*' => ['nullable', 'numeric', 'min:0'],
+            'actual_weight' => ['required', 'array', 'min:1'],
+            'actual_weight.*' => ['required', 'numeric', 'min:0'],
         ];
     }
 

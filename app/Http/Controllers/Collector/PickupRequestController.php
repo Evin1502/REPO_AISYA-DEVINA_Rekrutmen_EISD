@@ -18,7 +18,7 @@ class PickupRequestController extends Controller
         $pickupRequests = $request->user()
             ->assignedPickups()
             ->with(['resident', 'wasteCategories'])
-            ->whereIn('status', ['approved', 'scheduled'])
+            ->whereIn('status', ['approved', 'scheduled']) // 'scheduled' dipertahankan untuk data lama, alur baru tidak lagi memproduksinya
             ->latest()
             ->paginate(10);
 
@@ -35,74 +35,63 @@ class PickupRequestController extends Controller
     }
 
     /**
-     * Collector mengubah status pengajuan:
-     *  - approved → scheduled (set scheduled_at)
-     *  - scheduled → collected (hitung poin dari berat riil, dalam transaksi DB)
+     * Collector menyelesaikan penjemputan: approved → collected.
+     *
+     * Jadwal (scheduled_at & time_slot) SUDAH ditentukan Resident sejak
+     * mengajukan permintaan (lihat Resident\PickupRequestController::store),
+     * jadi Collector tidak perlu diminta set ulang jadwal -- cukup input
+     * berat riil begitu barang sudah ditimbang di lapangan.
      */
     public function updateStatus(UpdatePickupRequest $request, PickupRequest $pickupRequest): RedirectResponse
     {
         $this->authorize('updateStatus', $pickupRequest);
 
-        if ($pickupRequest->status === 'approved') {
-            $validated = $request->validated();
+        if ($pickupRequest->status !== 'approved') {
+            return back()->with('error', 'Status pengajuan tidak valid untuk tindakan ini.');
+        }
+
+        $validated = $request->validated();
+
+        DB::transaction(function () use ($pickupRequest, $validated) {
+            $totalWeight = 0.0;
+            $totalPoints = 0;
+
+            foreach ($pickupRequest->wasteCategories as $category) {
+                $weight = (float) ($validated['actual_weight'][$category->id] ?? 0);
+
+                $pickupRequest->wasteCategories()
+                    ->updateExistingPivot($category->id, ['actual_weight' => $weight]);
+
+                $totalWeight += $weight;
+                $totalPoints += (int) round($weight * $category->points_per_kg);
+            }
 
             $pickupRequest->update([
-                'status' => 'scheduled',
-                'scheduled_at' => $validated['scheduled_at'] ?? now(),
+                'status' => 'collected',
+                'total_weight' => $totalWeight,
+                'total_points' => $totalPoints,
             ]);
 
-            return back()->with('success', 'Penjemputan dijadwalkan. Segera lakukan pengambilan sampah.');
-        }
+            $resident = $pickupRequest->resident;
+            $resident->increment('points', $totalPoints);
 
-        if ($pickupRequest->status === 'scheduled') {
-            $validated = $request->validate([
-                'actual_weight' => ['required', 'array', 'min:1'],
-                'actual_weight.*' => ['required', 'numeric', 'min:0'],
+            $resident->pointHistories()->create([
+                'pickup_request_id' => $pickupRequest->id,
+                'points' => $totalPoints,
+                'type' => 'earn',
+                'description' => 'Poin dari penjemputan sampah #' . $pickupRequest->id,
             ]);
 
-            DB::transaction(function () use ($pickupRequest, $validated) {
-                $totalWeight = 0.0;
-                $totalPoints = 0;
+            AppNotification::create([
+                'user_id' => $resident->id,
+                'title' => 'Penjemputan Selesai',
+                'message' => "Penjemputan sampah #{$pickupRequest->id} selesai! Anda mendapat {$totalPoints} poin.",
+            ]);
+        });
 
-                foreach ($pickupRequest->wasteCategories as $category) {
-                    $weight = (float) ($validated['actual_weight'][$category->id] ?? 0);
-
-                    $pickupRequest->wasteCategories()
-                        ->updateExistingPivot($category->id, ['actual_weight' => $weight]);
-
-                    $totalWeight += $weight;
-                    $totalPoints += (int) round($weight * $category->points_per_kg);
-                }
-
-                $pickupRequest->update([
-                    'status' => 'collected',
-                    'total_weight' => $totalWeight,
-                    'total_points' => $totalPoints,
-                ]);
-
-                $resident = $pickupRequest->resident;
-                $resident->increment('points', $totalPoints);
-
-                $resident->pointHistories()->create([
-                    'pickup_request_id' => $pickupRequest->id,
-                    'points' => $totalPoints,
-                    'type' => 'earn',
-                    'description' => 'Poin dari penjemputan sampah #' . $pickupRequest->id,
-                ]);
-
-                AppNotification::create([
-                    'user_id' => $resident->id,
-                    'title' => 'Penjemputan Selesai',
-                    'message' => "Penjemputan sampah #{$pickupRequest->id} selesai! Anda mendapat {$totalPoints} poin.",
-                ]);
-            });
-
-            return redirect()
-                ->route('collector.pickup-requests.index')
-                ->with('success', 'Penjemputan selesai. Poin sudah ditambahkan ke saldo resident.');
-        }
-
-        return back()->with('error', 'Status pengajuan tidak valid untuk tindakan ini.');
+        return redirect()
+            ->route('collector.pickup-requests.index')
+            ->with('success', 'Penjemputan selesai. Poin sudah ditambahkan ke saldo resident.');
     }
 
     /**
